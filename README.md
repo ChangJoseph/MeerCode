@@ -13,21 +13,21 @@ This is a small quarter-year project created by a couple Meermans underlings
 
 ## Basic Code Format
 ### Variables
-- kVarName - constant
-- mVarName - field variables
-- pVarName - parameter variables
-- VAR_NAME - FINAL
+- `kVarName` - constant variables
+- `mVarName` - field variables
+- `pVarName` - parameter variables
+- `VAR_NAME` - FINAL "variables"
 #### Examples:
 ```
 public class ExampleClass {
   //FINAL
-  Double ACCEL_GRAVITY = 9.80665;
+  private FINAL Double ACCEL_GRAVITY = 9.80665;
   
   //Constant
-  ExampleClass kExampleClassFinal = this;
+  private ExampleClass kExampleClassFinal = this;
   
   //Field Variable
-  Number mExampleField;
+  private Number mExampleField;
   
   //Constructor
   public ExampleClass(Number pVarName) {
