@@ -4,8 +4,11 @@ This is a small quarter-year project created by a couple Meermans underlings
 
 ## To programmers:
 - **Don't add/commit every single file** please... This makes commit messages messy
-- **_You can't tell me what to do_**
-- **:) (I can edit too guys im so heckin smart)**
+- Download GitKraken for easier git usage
+### Benefits of GitKraken
+- Super easy to resolve merge conflicts
+- Super easy to commit/push (and it only commits files you've changed)
+- etcetera
 
 ## Branches
 - feature/branchName - adding new features; branch/merge -> dev
