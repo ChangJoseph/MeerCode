@@ -4,6 +4,7 @@ This is a small quarter-year project created by a couple Meermans underlings
 
 ## To programmers:
 - **Don't add/commit every single file** please... This makes commit messages messy
+  **_You can't tell me what to do__**
 
 ## Branches
 - feature/branchName - adding new features; branch/merge -> dev
