@@ -1,9 +1,12 @@
 # GenericProjectName
 ## What is it?
 This is a small quarter-year project created by a couple Meermans underlings
+### Alright, but what exactly is it?
+Using libGDX - our main java game framework that uses OpenGL 2.0 - we plan to create a 60 fps ascii rts game
 
 ## To programmers:
 - **Don't add/commit every single file** please... This makes commit messages messy
+- Make sure you have Gradle installed with an environmental variable set to its installation path
 - Download GitKraken for easier git usage
 ### Benefits of GitKraken
 - Super easy to resolve merge conflicts
