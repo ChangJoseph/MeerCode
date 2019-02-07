@@ -55,6 +55,13 @@ public class ExampleClass {
 - output
 - interpreted
 
+### Datatypes
+- Number (Integer/Double Hybrid)
+- Letter
+- List
+- Coin (Boolean)
+- Computer (system class)
+
 ## Credits
 - Francis Adams
 - Joseph Chang
