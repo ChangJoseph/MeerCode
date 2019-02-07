@@ -61,7 +61,13 @@ public class ExampleClass {
 - List
 - Coin (Boolean)
 - Computer (system class)
-
+### Keywords/Operators
+- if/whatIf/ otherwise
+- repeatWhile
+- repeatCount
+- +,-, *, /, ^
+- ==, !=, or, and
+- is
 ## Credits
 - Francis Adams
 - Joseph Chang
