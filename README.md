@@ -48,12 +48,12 @@ public class ExampleClass {
 
 ## Structure
 - Java
+- interpreted
 - scripting 
 - no primitives
-- static datatypes
-- math
-- output
-- interpreted
+- static variables
+- basic math
+- input/output
 
 ### Datatypes
 - Number (Integer/Double Hybrid)
@@ -61,14 +61,18 @@ public class ExampleClass {
 - List
 - Coin (Boolean)
 - Computer (system class)
-### Keywords/Operators
+
+### Keywords
 - if/whatIf/ otherwise
 - repeatWhile
 - repeatCount
+
+### Operators
 - +,-, *, /, ^
 - ==, !=, or, and
 - is
-## Credits
+
+# Collaborators
 - Francis Adams
 - Joseph Chang
 - Kyle Robinson
