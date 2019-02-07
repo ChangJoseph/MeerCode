@@ -1,6 +1,6 @@
 # MeerCode
 ## What is it?
-This is a small quarter-year project created by a couple Meermans underlings
+This is a small quarter-year project created by a couple Meermans underlings.
 ### Alright, but what exactly is it?
 Using Java and Python, we created a simple programming language that can manipulate characters, numbers, and arrays.
 
