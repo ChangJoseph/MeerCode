@@ -2,7 +2,7 @@
 ## What is it?
 This is a small quarter-year project created by a couple Meermans underlings
 ### Alright, but what exactly is it?
-Using libGDX - our main java game framework that uses OpenGL 2.0 - we plan to create a 60 fps ascii rts game
+Using Java and Python, we created a simple programming language that can manipulate characters, numbers, and arrays.
 
 ## To programmers:
 - **Don't add/commit every single file** please... This makes commit messages messy
