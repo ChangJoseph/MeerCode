@@ -2,7 +2,7 @@
 ## What is it?
 This is a small quarter-year project created by a couple Meermans underlings.
 ### Alright, but what exactly is it?
-Using Java and Python, we created a simple programming language that can manipulate characters, numbers, and arrays.
+Using Java, we created a simple programming language that can manipulate characters, numbers, and arrays.
 
 ## To programmers:
 - **Don't add/commit every single file** please... This makes commit messages messy
@@ -43,6 +43,17 @@ public class ExampleClass {
   }
 }
 ```
+# Purpose
+- We are making this scripting programming language to help beginner programmers grasp the idea of coding. 
+
+## Structure
+- Java
+- scripting 
+- no primitives
+- static datatypes
+- math
+- output
+- interpreted
 
 ## Credits
 - Francis Adams
