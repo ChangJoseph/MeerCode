@@ -55,7 +55,7 @@ public class ExampleClass {
 - basic math
 - input/output
 
-### Datatypes
+### Datatypes/Classes
 - Number (Integer/Double Hybrid)
 - Letter
 - List
@@ -63,6 +63,8 @@ public class ExampleClass {
 - Computer (system class)
 
 ### Keywords
+- import
+- 
 - if/whatIf/ otherwise
 - repeatWhile
 - repeatCount
@@ -77,6 +79,13 @@ public class ExampleClass {
 - Extra whitespace characters do not matter as fresh coders may accidentally hit an extra space or newline when int the process of learning
 - Functions and variables of other libraries use Java's syntax where parentheses are func() and variables are Library.variable
 ### Examples:
+```
+import_keyword DataTypes
+import_keyword Computer
+
+stringVar is List(Number(empty))
+numberVar is Number(1)
+```
 
 
 # Collaborators
