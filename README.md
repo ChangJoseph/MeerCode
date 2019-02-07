@@ -44,7 +44,7 @@ public class ExampleClass {
 }
 ```
 # Purpose
-- We are making this scripting programming language to help beginner programmers grasp the idea of coding. 
+- We are making a scripting programming language to help beginner coders start basic high-level programming. 
 
 ## Structure
 - Java
@@ -71,6 +71,13 @@ public class ExampleClass {
 - +,-, *, /, ^
 - ==, !=, or, and
 - is
+
+## Syntax
+### Basic Rules:
+- Extra whitespace characters do not matter as fresh coders may accidentally hit an extra space or newline when int the process of learning
+- Functions and variables of other libraries use Java's syntax where parentheses are func() and variables are Library.variable
+### Examples:
+
 
 # Collaborators
 - Francis Adams
