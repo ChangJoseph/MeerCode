@@ -43,32 +43,32 @@ public class ExampleClass {
   }
 }
 ```
-# Purpose
+# Purpose of MeerCode
 - We are making a scripting programming language to help beginner coders start basic high-level programming. 
 
-## Structure
-- Java
-- interpreted
-- scripting 
-- no primitives
-- static variables
-- basic math
-- input/output
+## Structure MeerCode
+- Interpreted
+- Scripting
+- No Primitives
+- Static Variables (not inferred)
 
 ### Datatypes/Classes
 - Number (Integer/Double Hybrid)
-- Letter (String being `"word"`)
-- List
+- Letter (`'a'`; 128 ascii)
+- String (`"word"`)
+- List (`Number[1,2,3]`)
 - Coin (Boolean)
-#### Helper Classes
+### Helper Classes
 - Math (trig, random, etc)
 - Computer (system class)
 
 ### Keywords
 - import
-- if/whatIf/otherwise
+- if/then/whatIf/otherwise
 - repeatWhile
-- repeatCount
+- break
+- end
+- none
 
 ### Operators
 - +,-, *, /, ^
@@ -78,22 +78,46 @@ public class ExampleClass {
 ## Syntax
 ### Basic Rules:
 - Extra whitespace characters do not matter as fresh coders may accidentally hit an extra space or newline when int the process of learning
-- Newline indicate a new 'function'
+- Newline indicate a new 'function' (empty line does nothing)
 - Functions and variables of other libraries use Java's syntax where parentheses are func() and variables are Library.variable
-- `''` and `""` are interchangeable for letter / letter arrays
+- If a conditional/loop uses more than 1 line, an `end` keyword is expected
+- `''` denotes a letter and `""` denotes a string
 - `#` used for commenting
-### Examples:
+### Script Example:
 ```
-import DataTypes
+import Number
+import Letter
+import String
+import List
+import Coin
+#OR import BasicDataTypes
 import Computer
+import Math
 
-numListVar is List(Number(empty))
-numberVar is Number(1)
-stringVar is List(Letter('a'), Letter('b'), ...)
+#numberVar infers 1 to be Number(1)
+numberVar is 1
+
+numListVar is Number[1,2,3]
+
+stringVar is Letter[a,b,c]
 #OR
-stringVar is List('a', 'b', ...)
-#OR
-stringVar is "abcdefg"
+stringVar is "abc"
+
+trueCoinVar is coin()
+falseCoinVar is ! coin()
+
+nullVar is none
+
+if (coin()) then Computer.say("true") whatIf (! coin()) then Computer.say("false") otherwise Computer.say("error")
+
+if (! ! coin()) then
+  Computer.say("true")
+end
+
+repeatWhile (coin()) then
+  break
+  Computer.say("this line wont print")
+end
 ```
 
 
