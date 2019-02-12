@@ -57,34 +57,43 @@ public class ExampleClass {
 
 ### Datatypes/Classes
 - Number (Integer/Double Hybrid)
-- Letter
+- Letter (String being `"word"`)
 - List
 - Coin (Boolean)
+#### Helper Classes
+- Math (trig, random, etc)
 - Computer (system class)
 
 ### Keywords
 - import
-- 
-- if/whatIf/ otherwise
+- if/whatIf/otherwise
 - repeatWhile
 - repeatCount
 
 ### Operators
 - +,-, *, /, ^
-- ==, !=, or, and
+- not, or, and
 - is
 
 ## Syntax
 ### Basic Rules:
 - Extra whitespace characters do not matter as fresh coders may accidentally hit an extra space or newline when int the process of learning
+- Newline indicate a new 'function'
 - Functions and variables of other libraries use Java's syntax where parentheses are func() and variables are Library.variable
+- `''` and `""` are interchangeable for letter / letter arrays
+- `#` used for commenting
 ### Examples:
 ```
-import_keyword DataTypes
-import_keyword Computer
+import DataTypes
+import Computer
 
-stringVar is List(Number(empty))
+numListVar is List(Number(empty))
 numberVar is Number(1)
+stringVar is List(Letter('a'), Letter('b'), ...)
+#OR
+stringVar is List('a', 'b', ...)
+#OR
+stringVar is "abcdefg"
 ```
 
 
