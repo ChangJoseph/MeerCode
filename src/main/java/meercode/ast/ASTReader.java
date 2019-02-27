@@ -6,7 +6,7 @@ public class ASTReader
 {
     private AbstractSyntaxTree tree;
     
-    
+    String outputString;
     private int flagCount;
     private ArrayList<String> functionList = new ArrayList<String>();
     private String outputFile;
@@ -26,20 +26,36 @@ public class ASTReader
         functionList.add("or");
         functionList.add("and");
         functionList.add("is");
-    }
-    private  void write(String data) {
-        try {
-            Files.write(Paths.get(outputFile), data.getBytes());
-        } catch (IOException e) {
+        try
+        {
+            Files.write(Paths.get(outputFile), "3AC Code \n".getBytes());
+        }
+        catch(IOException e)
+        {
             e.printStackTrace();
         }
+        outputString = "";
+    }
+    private  void write(String data) {
+        try { 
+  
+            // Open given file in append mode. 
+            BufferedWriter out = new BufferedWriter( 
+                   new FileWriter(outputFile, true)); 
+            out.write(data); 
+            out.close(); 
+        } 
+        catch (IOException e) { 
+            System.out.println("exception occoured" + e); 
+        } 
     }
    
     public void readTree() 
     {
         Node head = tree.getHead();
        genFunction(head);
-
+        write(outputString);
+        System.out.println(outputString);
     }
     
     private String genFunction(Node node) 
@@ -51,9 +67,11 @@ public class ASTReader
             else 
             {
                 
-               write( genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
+                flagCount++;
+                
+                write( "t" + flagCount + " = " + genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
+               System.out.print(outputString);
                
-               flagCount++;
                return("t"+ flagCount);
             }
             
