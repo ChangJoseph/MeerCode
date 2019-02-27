@@ -2,7 +2,8 @@ package meercode.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import meercode.ast.AbstractSyntaxTree;
+// import java.lang.Exception;
+import meercode.ast.*;
 
 public final class Parser {
 
@@ -20,11 +21,11 @@ public final class Parser {
     }
 
     private Parser() {
-        throw Exception;
+        // throw new Exception("Error");
     }
 
     public static AbstractSyntaxTree parseTokens(List<List<String>> pTokens) {
-        AbstractSyntaxTree tree = new AbstractSyntaxTree();
+        AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node());
         //Parse here
         return tree;
     }
