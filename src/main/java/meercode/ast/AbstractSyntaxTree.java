@@ -1,10 +1,10 @@
 package meercode.ast;
-public class AnnotatedSyntaxTree
+public class AbstractSyntaxTree
 {
     
     private Node head;
 
-    public AnnotatedSyntaxTree(Node head)
+    public AbstractSyntaxTree(Node head)
     {
         this.head = head;
     }

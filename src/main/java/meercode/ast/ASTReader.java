@@ -1,21 +1,21 @@
 package meercode.ast;
 import java.io.*;
 import java.util.*;
-
+import java.nio.file.*;
 public class ASTReader 
 {
-    private AnnotatedSyntaxTree tree;
-    private BufferedWriter writer;
-    private int count;
+    private AbstractSyntaxTree tree;
+    
+    
     private int flagCount;
     private ArrayList<String> functionList = new ArrayList<String>();
-
-    public ASTReader(AnnotatedSyntaxTree tree, String outputFile) throws IOException
+    private String outputFile;
+    public ASTReader(AbstractSyntaxTree tree, String outputFile) throws IOException
     {
         this.tree = tree;
-        writer = new BufferedWriter(new FileWriter(outputFile));
-        writer.write("3AC \n");
-        count = 0;
+        this.outputFile = outputFile;
+       
+        
         flagCount = 0;
         functionList.add("+");
         functionList.add("-");
@@ -27,22 +27,22 @@ public class ASTReader
         functionList.add("and");
         functionList.add("is");
     }
-    public void write(String text) throws IOException
-    {
-        writer.append(text);
+    private  void write(String data) {
+        try {
+            Files.write(Paths.get(outputFile), data.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    public void newLine() throws IOException
-    {
-        writer.newLine();
-    }
-    public void readTree() throws IOException
+   
+    public void readTree() 
     {
         Node head = tree.getHead();
        genFunction(head);
 
     }
     
-    private String genFunction(Node node) throws IOException
+    private String genFunction(Node node) 
     {       
             if(!isFunction(node.data))
             {
@@ -51,8 +51,8 @@ public class ASTReader
             else 
             {
                 
-               System.out.println( genFunction(node.left) + " " + node.data + " " + genFunction(node.right));
-               count++;
+               write( genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
+               
                flagCount++;
                return("t"+ flagCount);
             }
@@ -65,6 +65,6 @@ public class ASTReader
     public void testWrite() throws IOException
     {
         System.out.println("Attempting to write");
-        writer.write("This is a test");
+        write("This is a test");
     }
 }
