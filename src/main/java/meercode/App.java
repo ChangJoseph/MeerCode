@@ -11,7 +11,9 @@ public class App {
     public static void main(String[] args) {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("+"));
         tree.getHead().left = new Node("+");
-        tree.getHead().left.left = new Node("6");
+        tree.getHead().left.left = new Node("/");
+        tree.getHead().left.left.left = new Node("5");
+        tree.getHead().left.left.right = new Node("1");
         tree.getHead().left.right = new Node("9");
         tree.getHead().right = new Node("*");
         tree.getHead().right.left = new Node("3");

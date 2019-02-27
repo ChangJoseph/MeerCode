@@ -68,11 +68,11 @@ public class ASTReader
             {
                 
                 flagCount++;
-                
-                write( "t" + flagCount + " = " + genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
+                int curFlagCount = flagCount;
+                write( "t" + curFlagCount + " = " + genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
                System.out.print(outputString);
                
-               return("t"+ flagCount);
+               return("t"+ curFlagCount);
             }
             
     }
