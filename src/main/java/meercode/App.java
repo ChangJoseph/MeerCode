@@ -7,8 +7,8 @@ public class App {
     public String getGreeting() {
         return "Hello world.";
     }
-
-    public static void main(String[] args) {
+    public void readerTest()
+    {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("if", 'k'));
         tree.getHead().left = new Node("<", 'c');
         tree.getHead().left.left = new Node("x", 'v');
@@ -46,4 +46,9 @@ public class App {
             System.out.println("IO Exception occured");
         }
     }
+    
+
+    public static void main(String[] args) {
+        
+}
 }
