@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MeerCodeTest {
-    @Test public void testAppHasAGreeting() {
+    @Test public void testMeerCodeExists() {
         MeerCode classUnderTest = new MeerCode();
         assertNotNull("MeerCode should exist", classUnderTest);
     }
