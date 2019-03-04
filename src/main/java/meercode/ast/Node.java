@@ -3,20 +3,19 @@ public class Node
     {
         public Node left, right, middle;
         public String data;
+        public char flag;
 
         public Node()
         {
-            left = null;
-            right = null;
-            middle = null;
-            data = null;
+            this(null, 'n');
         }
-        public Node(String data)
+        public Node(String data, char flag)
         {
             this.data = data;
             left = null;
             right = null;
             middle = null;
+            this.flag = flag;
         }
         
         public Node(String data, Node left, Node right)

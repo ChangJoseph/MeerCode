@@ -9,15 +9,23 @@ public class App {
     }
 
     public static void main(String[] args) {
-        AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("+"));
-        tree.getHead().left = new Node("+");
-        tree.getHead().left.left = new Node("/");
-        tree.getHead().left.left.left = new Node("5");
-        tree.getHead().left.left.right = new Node("1");
-        tree.getHead().left.right = new Node("9");
-        tree.getHead().right = new Node("*");
-        tree.getHead().right.left = new Node("3");
-        tree.getHead().right.right = new Node("7");
+        AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP", 'f'));
+        tree.getHead().left = new Node("while", 'k');
+        tree.getHead().left.left = new Node("<", 'c');
+        tree.getHead().left.left.left = new Node("x", 'v');
+        tree.getHead().left.left.right = new Node("10", 'n');
+        tree.getHead().left.right = new Node("NOP", 'f');
+        tree.getHead().left.right.left = new Node("=", 'f');
+        tree.getHead().left.right.left.left = new Node("x", 'v');
+        tree.getHead().left.right.left.right = new Node("+", 'f');
+        tree.getHead().left.right.left.right.left = new Node("x", 'x');
+        tree.getHead().left.right.left.right.right = new Node("1", 'n');
+        tree.getHead().left.right.right = new Node("print", 'f');
+        tree.getHead().left.right.right.middle = new Node("x", 'v');
+        tree.getHead().right = new Node("return", 'f');
+        tree.getHead().right.middle = new Node("x", 'v');
+        
+
         String output = "C:/Users/robin/Desktop/GitStuff/MeerCode/src/main/java/meercode/TestOutput.txt";
         try
         {

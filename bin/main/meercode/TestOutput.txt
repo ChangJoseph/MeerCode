@@ -1,5 +1,11 @@
 3AC Code 
-t3 = 5 / 1
-t2 = t3 + 9
-t4 = 3 * 7
-t1 = t2 + t4
+JUMP2
+t3 = x < 10
+t2 = t3 == false
+if t2 goto END2
+t9 = x + 1
+t7 = x = t9
+print x
+goto JUMP2
+END2
+ret x
