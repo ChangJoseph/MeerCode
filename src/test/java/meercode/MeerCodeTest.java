@@ -6,9 +6,9 @@ package meercode;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class AppTest {
+public class MeerCodeTest {
     @Test public void testAppHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+        MeerCode classUnderTest = new MeerCode();
+        assertNotNull("MeerCode should exist", classUnderTest);
     }
 }
