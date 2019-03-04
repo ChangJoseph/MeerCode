@@ -7,7 +7,7 @@ import meercode.ast.*;
 
 public final class Parser {
 
-    List<List<String>> mTokens;
+    private List<List<String>> mTokens;
 
     public static void main(String[] args) {
         List<List<String>> tokens = new ArrayList<List<String>>();
@@ -26,7 +26,11 @@ public final class Parser {
 
     public static AbstractSyntaxTree parseTokens(List<List<String>> pTokens) {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node());
-        //Parse here
+        for (List<String> rows : pTokens) {
+            for (String token : rows) {
+
+            }
+        }
         return tree;
     }
 }
