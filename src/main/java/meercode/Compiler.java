@@ -29,7 +29,7 @@ public final class Compiler
             else if(curLine.contains("print"))
             {
                 //Change later when Computer Class is functional
-                System.out.println(tokenMap)
+                
             }
         }   
     }
