@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 // import java.lang.Exception;
 import meercode.ast.*;
+import meercode.utils.ReservedWords;
 
 public final class Parser {
 
@@ -28,7 +29,7 @@ public final class Parser {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node());
         for (List<String> rows : pTokens) {
             for (String token : rows) {
-
+                ReservedWords.getReservedWords();
             }
         }
         return tree;
