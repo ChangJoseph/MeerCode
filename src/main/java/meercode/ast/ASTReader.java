@@ -100,6 +100,11 @@ public class ASTReader
                 genFunction(node.right);
                 return("t" + curFlagCount);
             }
+            else if(node.data.equals("=") && node.left.flag == 'v')
+            {
+                write(node.left.data + " = " + genFunction(node.right));
+                return("t" + curFlagCount);
+            }
             else if(node.data.equals("return"))
             {
                 write("ret " + genFunction(node.middle));
