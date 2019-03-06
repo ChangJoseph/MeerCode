@@ -133,7 +133,14 @@ public class ASTReader
             else if(!isFunction(node.data))
             {
                 System.out.println("No function found on: " + node.data);
+                if(node.flag == 'v')
+                {
                 return(node.data);
+                }
+                else
+                {
+                    return("~k!" + node.data);
+                }
             }
             else 
             {
