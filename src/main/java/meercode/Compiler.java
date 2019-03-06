@@ -15,7 +15,7 @@ public final class Compiler
             curLine = scan.nextLine();
             if( curLine.substring(0,2).equals("if"))
             {
-                if(tokenMap.get(curLine.substring(3,5)).equals("true"))
+                if(tokenMap.get(curLine.split(" ")[1]).equals("true"))
                 {
                     curJumpFlag = "JUMP" + curLine.charAt(curLine.length()-1);
                     scan = new Scanner(input);
@@ -29,8 +29,17 @@ public final class Compiler
             else if(curLine.contains("print"))
             {
                 //Change later when Computer Class is functional
-                
+                String tempLine = curLine.substring(6);
+                if(tempLine.substring(0,3).equals("~k!"))
+                {
+                    System.out.println(tempLine.substring(3));
+                }
+                else 
+                {
+                    System.out.println(tempLine);
+                }
             }
+            
         }   
     }
 
