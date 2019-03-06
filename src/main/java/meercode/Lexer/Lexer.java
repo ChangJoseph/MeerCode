@@ -32,9 +32,15 @@ public final class Lexer
             mInCode = mInCode.replace("(", " ( ");
             mInCode = mInCode.replace(")", " ) ");
             mInCode = mInCode.replaceAll("[\r\n]+", "\n");
-            mInCode = mInCode.replaceAll("#.*", "");
+            
             String [] lines = mInCode.split("\n");
-
+            for (int i = 0; i < lines.length; i++)
+            {
+                if (lines[i].contains("#"))
+                {
+                    lines[i] = lines[i].replaceAll("#.*", "");
+                }
+            }
             List<List<String>> wordsByLine = new ArrayList<>();
             for (int i = 0; i < lines.length; i++)
             {
