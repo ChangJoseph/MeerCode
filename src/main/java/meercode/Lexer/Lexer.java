@@ -12,16 +12,10 @@ import java.util.List;
 public final class Lexer
 {
     private static String mInCode;
-    private String mFile = "C:\\Users\\franc\\Desktop\\excode.txt";
-    public Lexer()
+    private Lexer()
     {
-       System.out.println(getTokenList(mFile)); 
     }
 
-    public static void main(String [] args)
-    {
-        new Lexer();
-    }
 
     public static List<List<String>> getTokenList(String filename)
     {
@@ -38,7 +32,9 @@ public final class Lexer
             mInCode = mInCode.replace("(", " ( ");
             mInCode = mInCode.replace(")", " ) ");
             mInCode = mInCode.replaceAll("[\r\n]+", "\n");
+            mInCode = mInCode.replaceAll("#.*", "");
             String [] lines = mInCode.split("\n");
+
             List<List<String>> wordsByLine = new ArrayList<>();
             for (int i = 0; i < lines.length; i++)
             {
@@ -58,13 +54,6 @@ public final class Lexer
             System.out.println("?????");
             return null;
         }
-    }
-
-    private static void writeFileContents( String filename, String data) throws IOException
-    {
-        FileWriter fw = new FileWriter(new File(filename));
-        fw.write(data);
-        fw.close();
     }
 
     private static String getFileContents( String filename ) throws IOException
