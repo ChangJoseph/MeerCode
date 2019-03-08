@@ -10,7 +10,7 @@ public final class Parser {
 
     private List<List<String>> mTokens;
     private static List<String> mKeywords = ReservedWords.getReservedWords();
-    private static List<String> Merators = ReservedWords.getOperators();
+    private static List<String> mOperators = ReservedWords.getOperators();
     private static List<String> mComparators = ReservedWords.getComparators();
 
     public static void main(String[] args) {
@@ -32,17 +32,19 @@ public final class Parser {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP"));
         for (List<String> rows : pTokens) {
             for (String token : rows) {
-                if (keywords.contains(token))
+                if (mKeywords.contains(token))
                 {
-                    tree.getHead().left = new Node(token, tree.getHead());
+                    tree.getHead().mLeft = new Node(token);
                 }
             }
         }
         return tree;
     }
 
-    private static Node conditionalAST()
+    private static Node conditionalAST(List<String> tokens)
     {
+        Node n = new Node();
+        
         return null;
     }
 }
