@@ -1,11 +1,17 @@
 3AC Code 
-JUMP2
-t3 = x < 10
-t2 = t3 == false
-if t2 goto END2
-t9 = x + 1
-t7 = x = t9
-print x
-goto JUMP2
-END2
-ret x
+t2 = x < ~k!10
+if t2 goto JUMP1
+t7 = x % ~k!2
+t6 = t7 == ~k!0
+if t6 goto JUMP5
+t13 = x * ~k!3
+t11 = x = t13
+goto END5
+JUMP5
+t18 = x + ~k!1
+t16 = x = t18
+END5
+goto END1
+JUMP1
+t21 = x = ~k!10
+END1

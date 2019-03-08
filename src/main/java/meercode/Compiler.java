@@ -39,6 +39,14 @@ public final class Compiler
                     System.out.println(tempLine);
                 }
             }
+            else if(curLine.substring(0,4).equals("goto"))
+            {
+                curJumpFlag = "JUMP" + curLine.charAt(curLine.length()-1);
+                    scan = new Scanner(input);
+                    while(!scan.nextLine().equals(curJumpFlag));
+                    curLine = scan.nextLine();
+            }
+            
             
         }   
     }

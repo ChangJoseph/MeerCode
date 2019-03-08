@@ -130,6 +130,11 @@ public class ASTReader
                 return("t" + curFlagCount);
 
             }
+            else if(node.data.equals("="))
+            {
+                write(node.left.data + "=" + genFunction(node.right));
+                return("t" + curFlagCount);
+            }
             else if(!isFunction(node.data))
             {
                 System.out.println("No function found on: " + node.data);
@@ -142,6 +147,7 @@ public class ASTReader
                     return("~k!" + node.data);
                 }
             }
+            
             else 
             {
                 
