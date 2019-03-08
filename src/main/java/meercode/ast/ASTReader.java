@@ -2,7 +2,7 @@ package meercode.ast;
 import java.io.*;
 import java.util.*;
 import java.nio.file.*;
-public class ASTReader 
+public final class ASTReader 
 {
     private AbstractSyntaxTree tree;
     
@@ -61,7 +61,7 @@ public class ASTReader
         } 
     }
    
-    public void readTree() 
+    private void readTree() 
     {
         Node head = tree.getHead();
        genFunction(head);
@@ -100,11 +100,6 @@ public class ASTReader
                 genFunction(node.right);
                 return("t" + curFlagCount);
             }
-            else if(node.data.equals("=") && node.left.flag == 'v')
-            {
-                write(node.left.data + " = " + genFunction(node.right));
-                return("t" + curFlagCount);
-            }
             else if(node.data.equals("return"))
             {
                 write("ret " + genFunction(node.middle));
@@ -135,11 +130,25 @@ public class ASTReader
                 return("t" + curFlagCount);
 
             }
+            else if(node.data.equals("="))
+            {
+                write(node.left.data + " = " + genFunction(node.right));
+                newLine();
+                return("t" + curFlagCount);
+            }
             else if(!isFunction(node.data))
             {
                 System.out.println("No function found on: " + node.data);
+                if(node.flag == 'v')
+                {
                 return(node.data);
+                }
+                else
+                {
+                    return("~k!" + node.data);
+                }
             }
+            
             else 
             {
                 
@@ -164,5 +173,19 @@ public class ASTReader
     {
         System.out.println("Attempting to write");
         write("This is a test");
+    }
+    public static boolean convertTo3AC(AbstractSyntaxTree tree, String filePath)
+    {
+        try
+        {
+            ASTReader reader = new ASTReader(tree, filePath);
+            reader.readTree();
+        }
+        catch(Exception E)
+        {
+            return(false);
+        }
+        return(false);
+
     }
 }

@@ -37,8 +37,7 @@ public class MeerCode {
         try
         {
             System.out.println("Making reader");
-            ASTReader reader = new ASTReader(tree, output);
-            reader.readTree();
+           ASTReader.convertTo3AC(tree, output);
             
         }
         catch (Exception E)
