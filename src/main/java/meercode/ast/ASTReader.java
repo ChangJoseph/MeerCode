@@ -30,7 +30,7 @@ public class ASTReader
         functionList.add("<");
         functionList.add(">");
         functionList.add("=");
-        functionList.add("=<");
+        functionList.add("<=");
         functionList.add(">=");
         functionList.add("!=");
         functionList.add("==");
@@ -132,7 +132,8 @@ public class ASTReader
             }
             else if(node.data.equals("="))
             {
-                write(node.left.data + "=" + genFunction(node.right));
+                write(node.left.data + " = " + genFunction(node.right));
+                newLine();
                 return("t" + curFlagCount);
             }
             else if(!isFunction(node.data))

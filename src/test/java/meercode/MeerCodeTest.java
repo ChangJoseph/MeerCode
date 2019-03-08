@@ -11,9 +11,5 @@ public class MeerCodeTest {
         MeerCode classUnderTest = new MeerCode();
         assertNotNull("MeerCode should exist", classUnderTest);
     }
-    @Test public void astReaderTest()
-    {
-        App classToTest = new App();
-        classToTest.readerTest();
-    }
+    
 }
