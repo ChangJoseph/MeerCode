@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 // import java.lang.Exception;
 import meercode.ast.*;
-import meercode.utils.ReservedWords;
+import meercode.utils.*;
 
 public final class Parser {
 
     private List<List<String>> mTokens;
+    private static List<String> mKeywords = ReservedWords.getReservedWords();
+    private static List<String> Merators = ReservedWords.getOperators();
+    private static List<String> mComparators = ReservedWords.getComparators();
 
     public static void main(String[] args) {
         List<List<String>> tokens = new ArrayList<List<String>>();
@@ -26,12 +29,20 @@ public final class Parser {
     }
 
     public static AbstractSyntaxTree parseTokens(List<List<String>> pTokens) {
-        AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node());
+        AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP"));
         for (List<String> rows : pTokens) {
             for (String token : rows) {
-                ReservedWords.getReservedWords();
+                if (keywords.contains(token))
+                {
+                    tree.getHead().left = new Node(token, tree.getHead());
+                }
             }
         }
         return tree;
+    }
+
+    private static Node conditionalAST()
+    {
+        return null;
     }
 }
