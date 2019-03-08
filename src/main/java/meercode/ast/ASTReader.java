@@ -60,16 +60,16 @@ public class ASTReader
     
     private String genFunction(Node node) 
     {       
-            if(!isFunction(node.data))
+            if(!isFunction(node.mData))
             {
-                return(node.data);
+                return(node.mData);
             }
             else 
             {
                 
                 flagCount++;
                 
-                write( "t" + flagCount + " = " + genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
+                write( "t" + flagCount + " = " + genFunction(node.mLeft) + " " + node.mData + " " + genFunction(node.mRight) + "\n");
                System.out.print(outputString);
                
                return("t"+ flagCount);
