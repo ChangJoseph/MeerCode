@@ -11,7 +11,7 @@ public final class ReservedWords {
     private static final List<String> kReservedWords = new ArrayList<String>(Arrays.asList(kArrayReservedWords));
 
     public static List<String> getReservedWords() {
-        return kReservedWords;
+        return kReservedWords.subList(0, 9);
     }
     public static List<String> getOperators() {
         return kReservedWords.subList(9, kReservedWords.size());
