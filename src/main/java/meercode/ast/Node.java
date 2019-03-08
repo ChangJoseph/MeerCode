@@ -8,6 +8,9 @@ public class Node
         {
             this(null, null, null, null, null);
         }
+        public Node(String pData) {
+            this(pData, null, null, null, null);
+        }
         public Node(Node pParent)
         {
             this(null, null, null, null, pParent);
