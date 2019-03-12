@@ -51,6 +51,13 @@ public final class Parser {
         return tree;
     }
 
+    public static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
+
+    }
+    private static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
+        
+    }
+
     // We have 3 main ast types: operators, conditionals, and functions
     /**
      * 
