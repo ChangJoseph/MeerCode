@@ -151,9 +151,15 @@ public final class Compiler
                 case "-":
                 return(Integer.toString(Integer.parseInt(tokenMap.get(term1)) - Integer.parseInt(tokenMap.get(term2))));
                 case "^":
-                return(Double.toString(Math.pow(Double.parseDouble(tokenMap.get(term1)), Integer.parseInt(tokenMap.get(term2)))).replace("\\..*",""));
+                return(Integer.toString((int)(Math.pow(Double.parseDouble(tokenMap.get(term1)), Integer.parseInt(tokenMap.get(term2)))).replace("\\..*",""));
             }
         }
+        if(line.charAt(0) == '!')
+        {
+            return(Boolean.toString(!Boolean.parseBoolean(tokenMap.get(line.substring(1)))));
+        }
+        System.out.println("There was an error, no function detected");
+        return(null);
         
     }
 
