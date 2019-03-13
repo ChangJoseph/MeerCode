@@ -52,10 +52,27 @@ public final class Parser {
     }
 
     public static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
-
+        AbstractSyntaxTree ast = new AbstractSyntaxTree(new Node("NOP"));
+        parseTokensRecursive(pTokens, ast.getHead());
+        return ast;
     }
-    private static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
-        
+    private static Node parseTokensRecursive(List<List<String>> pTokens, Node pNode) {
+        List<String> currentLine = pTokens.get(0);
+        pNode.mLeft = processTokens(currentLine);
+        pTokens.remove(0);
+        pNode.mRight = parseTokensRecursive(pTokens, pNode.mRight);
+        return pNode;
+    }
+    private static Node processTokens(List<String> pTokens) {
+        switch(pTokens.get(0).toUpperCase()) {
+            case "IF":
+                break;
+            case "REPEATWHILE":
+                break;
+            default:
+                break;
+        }
+        return null;
     }
 
     // We have 3 main ast types: operators, conditionals, and functions
