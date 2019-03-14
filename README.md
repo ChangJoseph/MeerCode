@@ -108,7 +108,7 @@ falseCoinVar is ! coin()
 
 nullVar is none
 
-if (coin()) then Computer.say("true") whatIf (! coin()) then Computer.say("false") otherwise Computer.say("error")
+if (coin()) then Computer.say("true") whatIf (! coin()) then Computer.say("false") otherwise Computer.say("error") end
 
 if (! ! coin()) then
   Computer.say("true")
