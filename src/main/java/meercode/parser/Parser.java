@@ -2,9 +2,11 @@ package meercode.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Exception;
 // import java.lang.Exception;
 import meercode.ast.*;
 import meercode.utils.*;
+import meercode.parser.*;
 
 public final class Parser {
 
@@ -48,9 +50,14 @@ public final class Parser {
                 }
             }
         }
+
+        for (List<String> row : pTokens) {
+            process(row.get(0));
+        }
         return tree;
     }
 
+    /*
     public static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
         AbstractSyntaxTree ast = new AbstractSyntaxTree(new Node("NOP"));
         parseTokensRecursive(pTokens, ast.getHead());
@@ -63,15 +70,34 @@ public final class Parser {
         pNode.mRight = parseTokensRecursive(pTokens, pNode.mRight);
         return pNode;
     }
-    private static Node processTokens(List<String> pTokens) {
-        switch(pTokens.get(0).toUpperCase()) {
-            case "IF":
-                break;
-            case "REPEATWHILE":
-                break;
-            default:
-                break;
+    */
+
+    private static ParserMeta process(List<String> pTokens) {
+        ParserMeta meta;
+        String function = pTokens.get(0);
+        String upperCaseFunction = function.toUpperCase();
+
+        if (upperCaseFunction.equals("IF")) {
+            meta = new ParserMeta(true, 'c');
         }
+        else if (upperCaseFunction.equals("REPEATWHILE")) {
+            meta = new ParserMeta(true, 'l');
+        }
+        else if (pTokens.contains()) // TODO find a way to check if pTokens has one or more element from kOperators
+        {
+            meta = new ParserMeta(false, 'o');
+        }
+        else if (function.matches("[A-Z]")) {
+            meta = new ParserMeta(false, 'a');
+        }
+        else {
+            throw new IllegalArgumentException("SYNTAX ERROR");
+        }
+        
+        return meta;
+    }
+    private static Node processTokens(List<String> pTokens) {
+        
         return null;
     }
 
