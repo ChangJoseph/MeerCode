@@ -17,6 +17,7 @@ public class Node
             this(null, '~', null, null, pParent);
         }
         public Node(String pData, char pFlag) {
+            
             this(pData, pFlag, null, null, null, null);
         }
         public Node(String pData, char pFlag, Node pLeft, Node pMiddle, Node pRight)
@@ -29,11 +30,13 @@ public class Node
          */
         public Node(String pData, char pFlag, Node pLeft, Node pMiddle, Node pRight, Node pParent)
         {
+            
             this.mData = pData;
             this.mLeft = pLeft;
             this.mRight = pRight;
             this.mMiddle = pMiddle;
             this.mParent = pParent;
+            this.mFlag = pFlag;
         }
 
 

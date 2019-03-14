@@ -36,14 +36,7 @@ public class ASTReader
         functionList.add("==");
         functionList.add("%");
 
-        try
-        {
-            Files.write(Paths.get(outputFile), "3AC Code \n".getBytes());
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+        
         outputString = "";
         idQueue = new LinkedList<String>();
     }
@@ -57,20 +50,22 @@ public class ASTReader
             out.close(); 
         } 
         catch (IOException e) { 
-            System.out.println("exception occoured" + e); 
+            //System.out.println("exception occoured" + e); 
         } 
     }
    
     public void readTree() 
     {
+        //System.out.println("Tree has a head of " + tree.getHead().mData + " with a flag " + tree.getHead().mFlag);
         Node head = tree.getHead();
        genFunction(head);
         write(outputString);
-        System.out.println(outputString);
+        //System.out.println(outputString);
     }
     
     private String genFunction(Node node) 
-    {       
+    {      
+        //System.out.println("Node is " + node.mData + " with flag " + node.mFlag); 
         flagCount++;
         int curFlagCount = flagCount;
             
@@ -138,13 +133,15 @@ public class ASTReader
             }
             else if(!isFunction(node.mData))
             {
-                System.out.println("No function found on: " + node.mData);
+                //System.out.println("No function found on: " + node.mData);
                 if(node.mFlag == 'v')
                 {
+                //System.out.println("Data evaluated to variable on: " + node.mData + " with flag " + node.mFlag);
                 return(node.mData);
                 }
                 else
                 {
+                    //System.out.println("Data evaluated to constant on: " + node.mData + " with flag " + node.mFlag);
                     return("~k!" + node.mData);
                 }
             }
@@ -152,9 +149,9 @@ public class ASTReader
             else 
             {
                 
-                System.out.println("Function found on: " + node.mData);
+                //System.out.println("Function found on: " + node.mData);
                 write( "t" + curFlagCount + " = " + genFunction(node.mLeft) + " " + node.mData + " " + genFunction(node.mRight) + "\n");
-               System.out.print(outputString);
+               //System.out.print(outputString);
                
                
                return("t"+ curFlagCount);
@@ -171,7 +168,7 @@ public class ASTReader
     }
     public void testWrite() throws IOException
     {
-        System.out.println("Attempting to write");
+        //System.out.println("Attempting to write");
         write("This is a test");
     }
 }

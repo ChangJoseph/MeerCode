@@ -1,17 +1,16 @@
-3AC Code 
-t2 = x < ~k!10
-if t2 goto JUMP1
-t7 = x % ~k!2
-t6 = t7 == ~k!0
-if t6 goto JUMP5
-t12 = x * ~k!3
-x = t12
-goto END5
+x = ~k!0
 JUMP5
-t16 = x + ~k!1
-x = t16
+t6 = x <= ~k!10
+t5 = t6 == false
+if t5 goto END5
+t11 = x % ~k!2
+t10 = t11 == ~k!0
+if t10 goto JUMP9
+print ~k!Odd
+goto END9
+JUMP9
+print ~k!Even
+END9
+goto JUMP5
 END5
-goto END1
-JUMP1
-x = ~k!10
-END1
+print ~k!Done
