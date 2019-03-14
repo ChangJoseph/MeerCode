@@ -10,10 +10,10 @@ import meercode.parser.*;
 
 public final class Parser {
 
-    private List<List<String>> mTokens;
-    private static List<String> mKeywords = ReservedWords.getReservedWords();
-    private static List<String> mOperators = ReservedWords.getOperators();
-    private static List<String> mComparators = ReservedWords.getComparators();
+    private List<List<String>> kTokens;
+    private final static List<String> kKeywords = ReservedWords.getReservedWords();
+    private final static List<String> kOperators = ReservedWords.getOperators();
+    private final static List<String> kComparators = ReservedWords.getComparators();
 
     /**
      * Our main testing method
@@ -44,7 +44,7 @@ public final class Parser {
 
         for (List<String> rows : pTokens) {
             for (String token : rows) {
-                if (mKeywords.contains(token))
+                if (kKeywords.contains(token))
                 {
                     tree.getHead().mLeft = new Node(token);
                 }
@@ -52,7 +52,7 @@ public final class Parser {
         }
 
         for (List<String> row : pTokens) {
-            process(row.get(0));
+            process(row);
         }
         return tree;
     }
@@ -83,7 +83,7 @@ public final class Parser {
         else if (upperCaseFunction.equals("REPEATWHILE")) {
             meta = new ParserMeta(true, 'l');
         }
-        else if (pTokens.contains()) // TODO find a way to check if pTokens has one or more element from kOperators
+        else if (arrayContainsFromReference(pTokens, kOperators)) // TODO find a faster way to check if pTokens has one or more element from kOperators
         {
             meta = new ParserMeta(false, 'o');
         }
@@ -144,5 +144,15 @@ public final class Parser {
 
 
         return null;
+    }
+
+    /**
+     * 
+     */
+    private static boolean arrayContainsFromReference(List<String> pCheck, List<String> pReference) {
+        for (String elem : pCheck) {
+            if (pReference.contains(elem)) return true;
+        }
+        return false;
     }
 }
