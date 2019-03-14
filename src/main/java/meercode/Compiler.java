@@ -151,7 +151,7 @@ public final class Compiler
                 case "-":
                 return(Integer.toString(Integer.parseInt(tokenMap.get(term1)) - Integer.parseInt(tokenMap.get(term2))));
                 case "^":
-                return(Integer.toString((int)(Math.pow(Double.parseDouble(tokenMap.get(term1)), Integer.parseInt(tokenMap.get(term2)))).replace("\\..*",""));
+                return(Integer.toString((int)(Math.pow(Double.parseDouble(tokenMap.get(term1)), Integer.parseInt(tokenMap.get(term2))))));
             }
         }
         if(line.charAt(0) == '!')
