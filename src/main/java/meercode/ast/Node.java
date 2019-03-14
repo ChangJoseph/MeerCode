@@ -3,23 +3,23 @@ public class Node
     {
         public Node mLeft, mRight, mMiddle, mParent;
         public String mData;
-        public String mFlag;
+        public char mFlag;
 
         public Node()
         {
-            this(null, null, null, null, null);
+            this(null, '~', null, null, null);
         }
         public Node(String pData) {
-            this(pData, null, null, null, null);
+            this(pData, '~', null, null, null);
         }
         public Node(Node pParent)
         {
-            this(null, null, null, null, pParent);
+            this(null, '~', null, null, pParent);
         }
-        public Node(String pData, String pFlag) {
+        public Node(String pData, char pFlag) {
             this(pData, pFlag, null, null, null, null);
         }
-        public Node(String pData, String pFlag, Node pLeft, Node pMiddle, Node pRight)
+        public Node(String pData, char pFlag, Node pLeft, Node pMiddle, Node pRight)
         {
             this(pData, pFlag, pLeft, pMiddle, pRight, null);
         }
@@ -27,7 +27,7 @@ public class Node
         /**
          * Main constructor
          */
-        public Node(String pData, String pFlag, Node pLeft, Node pMiddle, Node pRight, Node pParent)
+        public Node(String pData, char pFlag, Node pLeft, Node pMiddle, Node pRight, Node pParent)
         {
             this.mData = pData;
             this.mLeft = pLeft;
