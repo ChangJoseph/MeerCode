@@ -38,7 +38,9 @@ public class Node
 
 
 
-        
+        public void setParent(Node pParent) {
+            this.mParent = pParent;
+        }
         
 
     }

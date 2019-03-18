@@ -7,10 +7,11 @@ package meercode.parser;
  * mASTType would be:
  * 'c' -> conditional
  * 'l' -> loop
- * 'a' -> ambiguous (possibly 'o' or 'f')
+ * 'a' -> ambiguous (possibly 'f' or 'k')
  * 
  * 'o' -> operation
  * 'f' -> function
+ * 'k' -> keyword
  */
 public final class ParserMeta
 {
