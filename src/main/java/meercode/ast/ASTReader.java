@@ -47,13 +47,13 @@ public final class ASTReader
         outputString = "";
         idQueue = new LinkedList<String>();
     }
-    private  void write(String data) {
+    private  void write(String mData) {
         try { 
   
             // Open given file in append mode. 
             BufferedWriter out = new BufferedWriter( 
                    new FileWriter(outputFile, true)); 
-            out.write(data); 
+            out.write(mData); 
             out.close(); 
         } 
         catch (IOException e) { 
@@ -74,55 +74,55 @@ public final class ASTReader
         flagCount++;
         int curFlagCount = flagCount;
             
-             if( node.data.equals("if"))
+             if( node.mData.equals("if"))
             {
                 String jumpID = "JUMP" + curFlagCount;
                 String endID = "END" + curFlagCount;
                
-                write( "if " + genFunction(node.left) + " goto " + jumpID);
+                write( "if " + genFunction(node.mLeft) + " goto " + jumpID);
                 newLine();
-                genFunction(node.right);
+                genFunction(node.mRight);
                 write("goto " + endID);
                 
                 newLine();
                 write(jumpID);
                 newLine();
-                genFunction(node.middle);
+                genFunction(node.mMiddle);
                 write(endID);
                 newLine();
                 return("t"+ curFlagCount);
 
 
             }
-            else if(node.data.equals("NOP"))
+            else if(node.mData.equals("NOP"))
             {
-                genFunction(node.left);
-                genFunction(node.right);
+                genFunction(node.mLeft);
+                genFunction(node.mRight);
                 return("t" + curFlagCount);
             }
-            else if(node.data.equals("return"))
+            else if(node.mData.equals("return"))
             {
-                write("ret " + genFunction(node.middle));
+                write("ret " + genFunction(node.mMiddle));
                 newLine();
                 return("t" + curFlagCount);
             }
-            else if(node.data.equals("print"))
+            else if(node.mData.equals("print"))
             {
-                write("print " + genFunction(node.middle));
+                write("print " + genFunction(node.mMiddle));
                 newLine();
                 return("t" + curFlagCount);
             }
-            else if(node.data.equals("while"))
+            else if(node.mData.equals("while"))
             {
                 String jumpID = "JUMP" + curFlagCount;
                 String endID = "END" + curFlagCount;
                 write(jumpID);
                 newLine();
-                write("t" + curFlagCount + " = " + genFunction(node.left) + " == false");
+                write("t" + curFlagCount + " = " + genFunction(node.mLeft) + " == false");
                 newLine();
                 write("if " + "t" + curFlagCount + " goto " + endID);
                 newLine();
-                genFunction(node.right);
+                genFunction(node.mRight);
                 write("goto " + jumpID);
                 newLine();
                 write(endID);
@@ -130,30 +130,30 @@ public final class ASTReader
                 return("t" + curFlagCount);
 
             }
-            else if(node.data.equals("="))
+            else if(node.mData.equals("="))
             {
-                write(node.left.data + " = " + genFunction(node.right));
+                write(node.mLeft.mData + " = " + genFunction(node.mRight));
                 newLine();
                 return("t" + curFlagCount);
             }
-            else if(!isFunction(node.data))
+            else if(!isFunction(node.mData))
             {
-                System.out.println("No function found on: " + node.data);
-                if(node.flag == 'v')
+                System.out.println("No function found on: " + node.mData);
+                if(node.mFlag == 'v')
                 {
-                return(node.data);
+                return(node.mData);
                 }
                 else
                 {
-                    return("~k!" + node.data);
+                    return("~k!" + node.mData);
                 }
             }
             
             else 
             {
                 
-                System.out.println("Function found on: " + node.data);
-                write( "t" + curFlagCount + " = " + genFunction(node.left) + " " + node.data + " " + genFunction(node.right) + "\n");
+                System.out.println("Function found on: " + node.mData);
+                write( "t" + curFlagCount + " = " + genFunction(node.mLeft) + " " + node.mData + " " + genFunction(node.mRight) + "\n");
                System.out.print(outputString);
                
                
@@ -161,9 +161,9 @@ public final class ASTReader
             }
             
     }
-    private boolean isFunction(String data)
+    private boolean isFunction(String mData)
     {
-        return(functionList.contains(data));
+        return(functionList.contains(mData));
     }
     private void newLine()
     {
