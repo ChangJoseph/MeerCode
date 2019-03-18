@@ -88,7 +88,7 @@ public final class Parser {
             meta = new ParserMeta(false, 'o');
         }
         else if (function.matches("[A-Z]")) {
-            meta = new ParserMeta(false, 'a');
+            meta = new ParserMeta(false, 'a'); // TODO figure out 
         }
         else {
             throw new IllegalArgumentException("SYNTAX ERROR");
