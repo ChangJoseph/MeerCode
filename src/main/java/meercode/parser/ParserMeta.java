@@ -17,18 +17,21 @@ public final class ParserMeta
     private boolean mList2d;
     private char mASTType;
     
+    /**
+     * Main constructor
+     * Pass in if it needs to process more than one line and the type of processing needed
+     */
     public ParserMeta(boolean pList2d, char pASTType)
     {
         this.mList2d = pList2d;
         this.mASTType = pASTType;
     }
     
-    public boolean getListBool()
-    {
+    // Getters and Setters
+    public boolean getListBool() {
         return mList2d;
     }
-    public char getASTType()
-    {
+    public char getASTType() {
         return mASTType;
     }
 
