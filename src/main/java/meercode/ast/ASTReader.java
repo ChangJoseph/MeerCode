@@ -1,31 +1,28 @@
 package meercode.ast;
 import java.io.*;
 import java.util.*;
+
+import meercode.utils.ReservedWords;
+
 import java.nio.file.*;
-public class ASTReader 
+public  final class ASTReader 
 {
     private AbstractSyntaxTree tree;
     
     String outputString;
     private int flagCount;
-    private ArrayList<String> functionList = new ArrayList<String>();
+    private List<String> functionList = new ArrayList<String>();
     private String outputFile;
-    public ASTReader(AbstractSyntaxTree tree, String outputFile) throws IOException
+    private Queue<String> idQueue;
+    private ASTReader(AbstractSyntaxTree tree, String outputFile) throws IOException
     {
         this.tree = tree;
         this.outputFile = outputFile;
        
         
         flagCount = 0;
-        functionList.add("+");
-        functionList.add("-");
-        functionList.add("*");
-        functionList.add("/");
-        functionList.add("^");
-        functionList.add("not");
-        functionList.add("or");
-        functionList.add("and");
-        functionList.add("is");
+        functionList = ReservedWords.getReservedWords();
+
         try
         {
             Files.write(Paths.get(outputFile), "3AC Code \n".getBytes());
@@ -35,14 +32,15 @@ public class ASTReader
             e.printStackTrace();
         }
         outputString = "";
+        idQueue = new LinkedList<String>();
     }
-    private  void write(String data) {
+    private  void write(String mData) {
         try { 
   
             // Open given file in append mode. 
             BufferedWriter out = new BufferedWriter( 
                    new FileWriter(outputFile, true)); 
-            out.write(data); 
+            out.write(mData); 
             out.close(); 
         } 
         catch (IOException e) { 
@@ -50,7 +48,7 @@ public class ASTReader
         } 
     }
    
-    public void readTree() 
+    private void readTree() 
     {
         Node head = tree.getHead();
        genFunction(head);
@@ -60,29 +58,117 @@ public class ASTReader
     
     private String genFunction(Node node) 
     {       
-            if(!isFunction(node.mData))
+        flagCount++;
+        int curFlagCount = flagCount;
+            
+             if( node.mData.equals("if"))
             {
-                return(node.mData);
+                String jumpID = "JUMP" + curFlagCount;
+                String endID = "END" + curFlagCount;
+               
+                write( "if " + genFunction(node.mLeft) + " goto " + jumpID);
+                newLine();
+                genFunction(node.mRight);
+                write("goto " + endID);
+                
+                newLine();
+                write(jumpID);
+                newLine();
+                genFunction(node.mMiddle);
+                write(endID);
+                newLine();
+                return("t"+ curFlagCount);
+
+
             }
+            else if(node.mData.equals("NOP"))
+            {
+                genFunction(node.mLeft);
+                genFunction(node.mRight);
+                return("t" + curFlagCount);
+            }
+            else if(node.mData.equals("return"))
+            {
+                write("ret " + genFunction(node.mMiddle));
+                newLine();
+                return("t" + curFlagCount);
+            }
+            else if(node.mData.equals("print"))
+            {
+                write("print " + genFunction(node.mMiddle));
+                newLine();
+                return("t" + curFlagCount);
+            }
+            else if(node.mData.equals("while"))
+            {
+                String jumpID = "JUMP" + curFlagCount;
+                String endID = "END" + curFlagCount;
+                write(jumpID);
+                newLine();
+                write("t" + curFlagCount + " = " + genFunction(node.mLeft) + " == false");
+                newLine();
+                write("if " + "t" + curFlagCount + " goto " + endID);
+                newLine();
+                genFunction(node.mRight);
+                write("goto " + jumpID);
+                newLine();
+                write(endID);
+                newLine();
+                return("t" + curFlagCount);
+
+            }
+            else if(node.mData.equals("="))
+            {
+                write(node.mLeft.mData + " = " + genFunction(node.mRight));
+                newLine();
+                return("t" + curFlagCount);
+            }
+            else if(!isFunction(node.mData))
+            {
+                System.out.println("No function found on: " + node.mData);
+                if(node.mFlag == 'v')
+                {
+                return(node.mData);
+                }
+                else
+                {
+                    return("~k!" + node.mData);
+                }
+            }
+            
             else 
             {
                 
-                flagCount++;
-                
-                write( "t" + flagCount + " = " + genFunction(node.mLeft) + " " + node.mData + " " + genFunction(node.mRight) + "\n");
+                System.out.println("Function found on: " + node.mData);
+                write( "t" + curFlagCount + " = " + genFunction(node.mLeft) + " " + node.mData + " " + genFunction(node.mRight) + "\n");
                System.out.print(outputString);
                
-               return("t"+ flagCount);
+               
+               return("t"+ curFlagCount);
             }
             
     }
-    private boolean isFunction(String data)
+    private boolean isFunction(String mData)
     {
-        return(functionList.contains(data));
+        return(functionList.contains(mData));
     }
-    public void testWrite() throws IOException
+    private void newLine()
     {
-        System.out.println("Attempting to write");
-        write("This is a test");
+        write("\n");
+    }
+    
+    public static boolean convertTo3AC(AbstractSyntaxTree tree, String filePath)
+    {
+        try
+        {
+            ASTReader reader = new ASTReader(tree, filePath);
+            reader.readTree();
+        }
+        catch(Exception E)
+        {
+            return(false);
+        }
+        return(false);
+
     }
 }
