@@ -11,4 +11,5 @@ public class MeerCodeTest {
         MeerCode classUnderTest = new MeerCode();
         assertNotNull("MeerCode should exist", classUnderTest);
     }
+    
 }
