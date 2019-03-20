@@ -50,8 +50,14 @@ public final class Compiler
                 System.out.println("Line evaluated for if statement");
                 if(tokenMap.get(curLine.split(" ")[1]).equals("true"))
                 {
-                    curJumpFlag = "JUMP" + curLine.charAt(curLine.length()-1);
-                    scan = new Scanner(input);
+                    curJumpFlag = curLine.split("goto ")[1];
+                    try{
+                    scan = new Scanner(new File(input));
+                    }
+                    catch(Exception E)
+                    {
+                        System.out.println("No File Found");
+                    }
                     while(!scan.nextLine().equals(curJumpFlag));
                     curLine = scan.nextLine();
                 
@@ -76,12 +82,20 @@ public final class Compiler
             else if(curLine.substring(0,4).equals("goto"))
             {
                 System.out.println("Line evaluated for goto");
-                curJumpFlag = "JUMP" + curLine.charAt(curLine.length()-1);
-                    scan = new Scanner(input);
+                curJumpFlag = curLine.split(" ")[1];
+                System.out.println("Curren Jump Flag is: " + curJumpFlag);
+                    try
+                    {
+                        scan = new Scanner(new File(input));
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("File not Found");
+                    }
                     while(!scan.nextLine().equals(curJumpFlag));
                     curLine = scan.nextLine();
             }
-            else if(!curLine.contains("JUMP"))
+            else if(!curLine.contains("JUMP") && !curLine.contains("END"))
             {
                 System.out.println("Line Evaluated for normal function");
                 String tokenKey = curLine.split(" ")[0];
@@ -187,8 +201,15 @@ public final class Compiler
         {
             return(Boolean.toString(!Boolean.parseBoolean(tokenMap.get(line.substring(1)))));
         }
-        System.out.println("There was an error, no function detected");
-        return(null);
+        
+        if(line.contains("~k!"))
+        {
+            return(line.substring(3));
+        }
+        else
+        {
+            return(tokenMap.get(line));
+        }
         
     }
 

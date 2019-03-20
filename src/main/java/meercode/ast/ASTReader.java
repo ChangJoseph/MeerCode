@@ -11,12 +11,12 @@ public class ASTReader
     private ArrayList<String> functionList = new ArrayList<String>();
     private String outputFile;
     private Queue<String> idQueue;
-    public ASTReader(AbstractSyntaxTree tree, String outputFile) throws IOException
+    public ASTReader(AbstractSyntaxTree tree, String outputFile) 
     {
         this.tree = tree;
         this.outputFile = outputFile;
        
-        
+        System.out.println("Set tree and file");
         flagCount = 0;
         functionList.add("+");
         functionList.add("-");

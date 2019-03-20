@@ -3,14 +3,15 @@ JUMP5
 t6 = x <= ~k!10
 t5 = t6 == false
 if t5 goto END5
-t11 = x % ~k!2
-t10 = t11 == ~k!0
-if t10 goto JUMP9
-print ~k!Odd
-goto END9
-JUMP9
+t12 = x % ~k!2
+t11 = t12 == ~k!0
+if t11 goto JUMP10
+goto END10
+JUMP10
 print ~k!Even
-END9
+END10
+t20 = x + ~k!1
+x = t20
 goto JUMP5
 END5
 print ~k!Done
