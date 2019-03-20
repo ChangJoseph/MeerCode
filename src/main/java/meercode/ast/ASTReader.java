@@ -1,40 +1,27 @@
 package meercode.ast;
 import java.io.*;
 import java.util.*;
+
+import meercode.utils.ReservedWords;
+
 import java.nio.file.*;
-public final class ASTReader 
+public  final class ASTReader 
 {
     private AbstractSyntaxTree tree;
     
     String outputString;
     private int flagCount;
-    private ArrayList<String> functionList = new ArrayList<String>();
+    private List<String> functionList = new ArrayList<String>();
     private String outputFile;
     private Queue<String> idQueue;
-    public ASTReader(AbstractSyntaxTree tree, String outputFile) throws IOException
+    private ASTReader(AbstractSyntaxTree tree, String outputFile) throws IOException
     {
         this.tree = tree;
         this.outputFile = outputFile;
        
         
         flagCount = 0;
-        functionList.add("+");
-        functionList.add("-");
-        functionList.add("*");
-        functionList.add("/");
-        functionList.add("^");
-        functionList.add("not");
-        functionList.add("or");
-        functionList.add("and");
-        functionList.add("is");
-        functionList.add("<");
-        functionList.add(">");
-        functionList.add("=");
-        functionList.add("=<");
-        functionList.add(">=");
-        functionList.add("!=");
-        functionList.add("==");
-        functionList.add("%");
+        functionList = ReservedWords.getReservedWords();
 
         try
         {
@@ -169,11 +156,7 @@ public final class ASTReader
     {
         write("\n");
     }
-    private void testWrite() throws IOException
-    {
-        System.out.println("Attempting to write");
-        write("This is a test");
-    }
+    
     public static boolean convertTo3AC(AbstractSyntaxTree tree, String filePath)
     {
         try
