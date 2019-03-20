@@ -78,7 +78,8 @@ public class ExampleClass {
 ## Syntax
 ### Basic Rules:
 - Extra whitespace characters do not matter as fresh coders may accidentally hit an extra space or newline when int the process of learning
-- Newline indicate a new 'function' (empty line does nothing)
+- Case sensitive
+- Newline indicate a new 'function' (empty line does nothing) with exceptions (such as conditionals or loops)
 - Functions and variables of other libraries use Java's syntax where parentheses are func() and variables are Library.variable
 - If a conditional/loop uses more than 1 line, an `end` keyword is expected
 - `''` denotes a letter and `""` denotes a string
@@ -108,7 +109,7 @@ falseCoinVar is ! coin()
 
 nullVar is none
 
-if (coin()) then Computer.say("true") whatIf (! coin()) then Computer.say("false") otherwise Computer.say("error") end
+if (coin()) then Computer.say("true") whatif (! coin()) then Computer.say("false") otherwise Computer.say("error") end
 
 if (! ! coin()) then
   Computer.say("true")
