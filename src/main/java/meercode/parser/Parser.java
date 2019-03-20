@@ -141,7 +141,7 @@ public final class Parser {
         // The conditional expression
         List<String> conditionalTokens = pTokens.subList(1, indexOfThen);
 
-        // Case when an else if statement exists
+        // Case when an else if (whatIf) statement exists
         if (indexOfWhatIf >= 0) {
 
             // The true statements
@@ -174,7 +174,10 @@ public final class Parser {
      */
     private static Node multiLineConditionalAST(List<List<String>> pTokens)
     {
-        
+        Node headNode = new Node(pTokens.get(0).get(0));
+        Node currentNode = headNode;
+
+        return headNode;
     }
     private static Node loopAST(List<String> pTokens)
     {
