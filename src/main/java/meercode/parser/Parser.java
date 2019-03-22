@@ -40,6 +40,7 @@ public final class Parser {
     public static AbstractSyntaxTree parseTokens(List<List<String>> pTokens) {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP"));
 
+<<<<<<< Updated upstream
         // for (List<String> rows : pTokens) {
         //     for (String token : rows) {
         //         if (kKeywords.contains(token))
@@ -76,10 +77,15 @@ public final class Parser {
                 case 'f': tree.getHead().mLeft = functionAST(row);
                 case 'o': tree.getHead().mLeft = operatorAST(row);
             }
+=======
+        for (List<String> rows : pTokens) {
+            
+>>>>>>> Stashed changes
         }
         return tree;
     }
 
+<<<<<<< Updated upstream
     /**
      * Processes a line of code and gives back info on it
      * @param pTokens The line of code in form of list of tokens
@@ -108,6 +114,32 @@ public final class Parser {
         }
         
         return meta;
+=======
+    public static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
+        AbstractSyntaxTree ast = new AbstractSyntaxTree(new Node("NOP"));
+        parseTokensRecursive(pTokens, ast.getHead());
+        return ast;
+    }
+    private static Node parseTokensRecursive(List<List<String>> pTokens, Node pNode) {
+        List<String> currentLine = pTokens.remove(0);
+        pNode.mLeft = processTokens(currentLine);
+        // pTokens.remove(0);
+        pNode.mRight = parseTokensRecursive(pTokens, pNode.mRight);
+        return pNode;
+    }
+    private static Node processTokens(List<String> pTokens) {
+        switch(pTokens.get(0).toUpperCase()) {
+            case "IF":
+                conditionalAST(pTokens);
+                break;
+            case "REPEATWHILE":
+                
+                break;
+            default:
+                break;
+        }
+        return null;
+>>>>>>> Stashed changes
     }
 
 
@@ -130,9 +162,21 @@ public final class Parser {
         for (int i = 1; i < pTokens.size(); i++)
         {
             String data = pTokens.get(i);
-            data = data.replaceAll("[()]", "");
+            // data = data.replaceAll("[()]", ""); bad idea m8
             currentNode = new Node(data);
-            if (headNode.mLeft == null)
+            if (data.equals(")"))
+            {
+                //do nothing
+                int b = 1;
+            }
+            else if (data.equals("("))
+            {
+                Node temp = operatorAST(pTokens.subList(i + 1, pTokens.indexOf(")")));
+                headNode.mRight = new Node(pTokens.get(i +1));
+                headNode.mRight.mLeft = temp;
+                i++;
+            }
+            else if (headNode.mLeft == null)
             {
                 currentNode.mLeft = headNode;
                 headNode = currentNode;
