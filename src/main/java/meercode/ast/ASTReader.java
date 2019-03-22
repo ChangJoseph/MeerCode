@@ -113,7 +113,7 @@ public class ASTReader
                 String endID = "END" + curFlagCount;
                 write(jumpID);
                 newLine();
-                write("t" + curFlagCount + " = " + genFunction(node.mLeft) + " == false");
+                write("t" + curFlagCount + " = " + genFunction(node.mLeft) + " == ~k!false");
                 newLine();
                 write("if " + "t" + curFlagCount + " goto " + endID);
                 newLine();
