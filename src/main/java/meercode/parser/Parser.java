@@ -39,6 +39,7 @@ public final class Parser {
      */
     public static AbstractSyntaxTree parseTokens(List<List<String>> pTokens) {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP"));
+        Node temp = tree.getHead();
 
         // for (List<String> rows : pTokens) {
         //     for (String token : rows) {
@@ -49,15 +50,30 @@ public final class Parser {
         //     }
         // }
 
+        // TODO make the 
         for (int count = 0; count < pTokens.size(); count++) {
             List<String> row = pTokens.get(count);
-            ParserMeta meta = processMeta(row);
-            boolean list2d = meta.getListBool();
-            char astType = meta.getASTType();
+            ParserMeta meta = processMeta(row); // information about the line of code
+            boolean list2d = meta.getListBool(); // does this line of code need more lines?
+            char astType = meta.getASTType(); // what type of ast is this?
             switch(astType) {
                 case 'c':
-                    if (list2d) tree.getHead().mLeft = multiLineConditionalAST(row);
-                    else tree.getHead().mLeft = conditionalAST(row); // TODO see how we store the methods into our 'tree' AST
+                    if (list2d) {
+                        int endIndex = -1;
+                        List<List<String>> conditionalRows;
+                        for (int endFinder = count; endFinder < pTokens.size(); endFinder++) {
+                            if (pTokens.get(endFinder).get(0).equals("end")) {
+                                endIndex = endFinder;
+                                break; // TODO do I want this break here?
+                            }
+                        }
+                        if (endIndex < 0) {
+                            throw new IllegalArgumentException("Syntax Error: Missing keyword 'end'");
+                        }
+                        conditionalRows = pTokens.subList(count, endIndex);
+                        temp.mLeft = multiLineConditionalAST(conditionalRows);
+                    }
+                    else temp.mLeft = conditionalAST(row); // TODO see how we store the methods into our 'tree' AST
                     break;
                 case 'l': 
                     int c = count;
@@ -71,12 +87,14 @@ public final class Parser {
                     {
                         System.out.println("You gotta write end after your blocks bucko");
                     }
-                    tree.getHead().mLeft = multiLineConditionalAST(pTokens.subList(count, c));
+                    temp.mLeft = multiLineConditionalAST(pTokens.subList(count, c));
                     count = c;
                 case 'k': System.out.println("Yur doin sumthin wrong boi");
-                case 'f': tree.getHead().mLeft = functionAST(row);
-                case 'o': tree.getHead().mLeft = operatorAST(row);
+                case 'f': temp.mLeft = functionAST(row);
+                case 'o': temp.mLeft = operatorAST(row);
             }
+            temp.mRight = new Node("NOP");
+            temp = temp.mRight; // TODO fencepost problem
         }
         return tree;
     }
@@ -280,14 +298,46 @@ public final class Parser {
      */
     private static Node multiLineConditionalAST(List<List<String>> pTokens)
     {
-        Node headNode = new Node(pTokens.get(0)); // What we return
+        Node headNode = new Node(pTokens.get(0).get(0)); // What we return
         Node currentNode = headNode; // A temporary node to write on as we go through tokens
 
         // Indices of each keyword (-1 if nonexistant)
-        int indexOfThen = pTokens.indexOf("then");
-        int indexOfWhatIf = pTokens.indexOf("whatif");
-        int indexOfOtherwise = pTokens.indexOf("otherwise");
-        int indexOfEnd = pTokens.indexOf("end");
+        int indexRowOfThen;
+        int indexOfThen;
+        for (int row = 0; row < pTokens.size(); row++) {
+            indexOfThen = pTokens.get(row).indexOf("then");
+            if (indexOfThen >= 0) {
+                indexRowOfThen = row;
+                break;
+            }
+        }
+        int indexOfWhatIf;
+        int indexRowOfWhatIf;
+        for (int row = indexRowOfThen; row < pTokens.size(); row++) {
+            indexOfWhatIf = pTokens.get(row).indexOf("whatif");
+            if (indexOfThen >= 0) {
+                indexRowOfThen = row;
+                break;
+            }
+        }
+        int indexOfOtherwise;
+        int indexRowOfOtherwise;
+        for (int row = indexRowOfThen; row < pTokens.size(); row++) {
+            indexOfOtherwise = pTokens.get(row).indexOf("otherwise");
+            if (indexOfOtherwise >= 0) {
+                indexRowOfOtherwise = row;
+                break;
+            }
+        }
+        int indexOfEnd;
+        int indexRowOfEnd;
+        for (int row = indexRowOfThen; row < pTokens.size(); row++) {
+            indexOfEnd = pTokens.get(row).indexOf("end");
+            if (indexOfEnd >= 0) {
+                indexRowOfEnd = row;
+                break;
+            }
+        }
 
         // Bunch of cases to make sure everything in code is written correctly
         if (indexOfThen == -1) {
@@ -309,7 +359,7 @@ public final class Parser {
 
 
         // The conditional expression tokens
-        List<String> conditionalTokens = pTokens.subList(1, indexOfThen);
+        List<String> conditionalTokens = pTokens.get(0).subList(1, indexOfThen);
 
         // Turning the conditional expression tokens into a tree
         Node conditionalExpressionNode = operatorAST(conditionalTokens);
@@ -317,22 +367,23 @@ public final class Parser {
         // Puts the conditional expression node in the main node's mLeft
         currentNode.mLeft = conditionalExpressionNode;
         
+        // TODO FINISH THIS STUFF!!! \/ \/ \/ \/ THE LOGIC DOESNT MAKE SENSE FOR MULTIPLE LINES ********************************
 
         // Case when neither whatif (else if) or otherwise (else) exist
         if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
              // The true statements
-             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfEnd);
+             List<String> trueTokens = pTokens.get(0).subList(indexOfThen, indexOfEnd);
              currentNode.mMiddle = functionAST(trueTokens);
         }
 
         // Case when only otherwise (else) exists
         else if (indexOfOtherwise != -1) {
             // The true statements
-            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfOtherwise);
+            List<String> trueTokens = pTokens.get(0).subList(indexOfThen, indexOfOtherwise);
             currentNode.mMiddle = functionAST(trueTokens);
 
             // The false statements
-            List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
+            List<String> falseTokens = pTokens.get(0).subList(indexOfOtherwise, indexOfEnd);
             currentNode.mRight = functionAST(trueTokens);
         }
 
