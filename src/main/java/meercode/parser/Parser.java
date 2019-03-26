@@ -139,7 +139,7 @@ public final class Parser {
 
 
 
-    // We have 3 main ast types: operators, conditionals, and functions
+    // We have 4 main ast types: operators, intiializers*, conditionals, and functions
     /**
      * Takes in a line of code in form of tokens and turns it into a tree
      * Made for operator statements
@@ -194,6 +194,22 @@ public final class Parser {
         }
         return headNode;
     }
+
+    /**
+     * If the line of code is initializing/setting a variable, we use this tree
+     * DISCLAIMER: at the time of creation, this method is used because order of operations is not
+     * functioning. This method will be deprecated in the future.
+     * @param pLine the line of code to be processed
+     * @return the full AST for the line of codea
+     */
+    private static Node initializerAST(List<String> pLine)
+    {
+        Node headNode = new Node(pLine.get(1));
+        headNode.mLeft = new Node(pLine.get(0));
+        headNode.mRight = operatorAST(pLine.subList(2, pLine.size()));
+        return headNode;
+    }
+
     /**
      * Takes in a line of code in form of tokens and turns it into a tree
      * Made for single line if statements
@@ -303,9 +319,14 @@ public final class Parser {
         Node headNode = new Node(pTokens.get(0).get(0)); // What we return
         Node currentNode = headNode; // A temporary node to write on as we go through tokens
 
+        // Case when the multiple line conditional start with a whatif
+        if (pTokens.get(0).get(0).equals("whatif")) {
+            pTokens.get(0).set(0, "if");
+        }
+
         // Indices of each keyword (-1 if nonexistant)
-        int indexRowOfThen;
-        int indexOfThen;
+        int indexRowOfThen = -1;
+        int indexOfThen = -1;
         for (int row = 0; row < pTokens.size(); row++) {
             indexOfThen = pTokens.get(row).indexOf("then");
             if (indexOfThen >= 0) {
@@ -313,8 +334,8 @@ public final class Parser {
                 break;
             }
         }
-        int indexOfWhatIf;
-        int indexRowOfWhatIf;
+        int indexOfWhatIf = -1;
+        int indexRowOfWhatIf = -1;
         for (int row = indexRowOfThen; row < pTokens.size(); row++) {
             indexOfWhatIf = pTokens.get(row).indexOf("whatif");
             if (indexOfThen >= 0) {
@@ -322,8 +343,8 @@ public final class Parser {
                 break;
             }
         }
-        int indexOfOtherwise;
-        int indexRowOfOtherwise;
+        int indexOfOtherwise = -1;
+        int indexRowOfOtherwise = -1;
         for (int row = indexRowOfThen; row < pTokens.size(); row++) {
             indexOfOtherwise = pTokens.get(row).indexOf("otherwise");
             if (indexOfOtherwise >= 0) {
@@ -331,8 +352,8 @@ public final class Parser {
                 break;
             }
         }
-        int indexOfEnd;
-        int indexRowOfEnd;
+        int indexOfEnd = -1;
+        int indexRowOfEnd = -1;
         for (int row = indexRowOfThen; row < pTokens.size(); row++) {
             indexOfEnd = pTokens.get(row).indexOf("end");
             if (indexOfEnd >= 0) {
@@ -408,12 +429,19 @@ public final class Parser {
         // Case when only whatif (else if) exists
         else if (indexOfWhatIf != -1) {
             // The true statements
-            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
-            currentNode.mMiddle = functionAST(trueTokens);
+            List<List<String>> trueTokens = pTokens.subList(indexRowOfThen, indexRowOfWhatIf);
+            currentNode.mMiddle = new Node("NOP");
+            currentNode = currentNode.mMiddle;
+            for (List<String> row : trueTokens) {
+                currentNode.mLeft = functionAST(row);
+                currentNode.mRight = new Node("NOP");
+                currentNode = currentNode.mRight; // TODO fencepost problem
+            }
 
             // The false statements
-            List<String> falseTokens = pTokens.subList(indexOfWhatIf, indexOfEnd);
-            currentNode.mRight = functionAST(trueTokens);
+            List<List<String>> falseTokens = pTokens.subList(indexRowOfWhatIf, indexRowOfEnd);
+            currentNode.mRight = multiLineConditionalAST(falseTokens);
+            
         }
         // Catch-all case
         else {
