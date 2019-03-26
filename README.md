@@ -52,15 +52,12 @@ public class ExampleClass {
 - No Primitives
 - Static Variables (not inferred)
 
-### Datatypes/Classes
+### Datatypes
 - Number (Integer/Double Hybrid)
 - Letter (`'a'`; 128 ascii)
 - String (`"word"`)
 - List (`Number[1,2,3]`)
 - Coin (Boolean)
-### Helper Classes
-- Math (trig, random, etc)
-- Computer (system class)
 
 ### Keywords
 - import
@@ -86,38 +83,24 @@ public class ExampleClass {
 - `#` used for commenting
 ### Script Example:
 ```
-import Number
-import Letter
-import String
-import List
-import Coin
-#OR import BasicDataTypes
-import Computer
-import Math
-
-#numberVar infers 1 to be Number(1)
 numberVar is 1
 
-numListVar is Number[1,2,3]
-
-stringVar is Letter[a,b,c]
-#OR
 stringVar is "abc"
 
-trueCoinVar is coin()
-falseCoinVar is ! coin()
+trueCoinVar is true
+falseCoinVar is ! true
 
 nullVar is none
 
-if (coin()) then Computer.say("true") whatif (! coin()) then Computer.say("false") otherwise Computer.say("error") end
+if (true) then say("true") whatif (! false) then say("false") otherwise say("error") end
 
-if (! ! coin()) then
-  Computer.say("true")
+if (! ! true) then
+  say("true")
 end
 
-repeatWhile (coin()) then
+repeatwhile (true) then
   break
-  Computer.say("this line wont print")
+  say("this line wont print")
 end
 ```
 
