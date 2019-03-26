@@ -56,7 +56,8 @@ public final class Parser {
             char astType = meta.getASTType();
             switch(astType) {
                 case 'c':
-                    tree.getHead().mLeft = conditionalAST(row); // TODO see how we store the methods into our 'tree' AST
+                    if (list2d) tree.getHead().mLeft = multiLineConditionalAST(row);
+                    else tree.getHead().mLeft = conditionalAST(row); // TODO see how we store the methods into our 'tree' AST
                     break;
                 case 'l': 
                     int c = count;
@@ -88,12 +89,15 @@ public final class Parser {
     private static ParserMeta processMeta(List<String> pTokens) {
         ParserMeta meta;
         String function = pTokens.get(0);
-        String upperCaseFunction = function.toUpperCase();
 
-        if (upperCaseFunction.equals("IF")) { // TODO What if the END is on the same line? (it would have to be ParserMeta(false, 'c') )
-            meta = new ParserMeta(true, 'c');
+        if (function.equals("if")) {
+            // If the 'if' is a single line
+            if (pTokens.contains("end")) meta = new ParserMeta(false, 'c');
+
+            // If the 'if' is a block
+            else meta = new ParserMeta(true, 'c');
         }
-        else if (upperCaseFunction.equals("REPEATWHILE")) {
+        else if (function.equals("REPEATWHILE")) {
             meta = new ParserMeta(true, 'l');
         }
         else if (arrayContainsFromReference(pTokens, kOperators)) // TODO find a faster way to check if pTokens has one or more element from kOperators
@@ -139,15 +143,24 @@ public final class Parser {
             }
             else if (data.equals("("))
             {
-                Node temp = operatorAST(pTokens.subList(i + 1, pTokens.indexOf(")")));
+                List<String> parenList = pTokens.subList(i + 1, pTokens.indexOf(")"));
+                Node temp = operatorAST(parenList);
                 headNode.mRight = new Node(pTokens.get(i +1));
                 headNode.mRight.mLeft = temp;
+                i+= parenList.size();
+            }
+            else if (headNode.mLeft != null && headNode.mRight != null)
+            {
+                Node temp = headNode;
+                headNode = new Node(pTokens.get(i + 1));
+                headNode.mLeft = temp;
                 i++;
             }
             else if (headNode.mLeft == null)
             {
-                currentNode.mLeft = headNode;
+                Node temp = headNode;
                 headNode = currentNode;
+                headNode.mLeft = temp;
             }
             else if (headNode.mRight == null && !kComparators.contains(data) && !kOperators.contains(data))
             {
@@ -213,6 +226,7 @@ public final class Parser {
              List<String> trueTokens = pTokens.subList(indexOfThen, indexOfEnd);
              currentNode.mMiddle = functionAST(trueTokens);
         }
+
         // Case when only otherwise (else) exists
         else if (indexOfOtherwise != -1) {
             // The true statements
@@ -223,6 +237,7 @@ public final class Parser {
             List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
             currentNode.mRight = functionAST(trueTokens);
         }
+
         // TODO add this case if time allows
         // // Case when both whatif (else if) and otherwise (else) exist
         // else if (indexOfWhatIf != -1 && indexOfOtherwise != -1) {
@@ -237,6 +252,7 @@ public final class Parser {
         //     // The false statements
         //     List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
         // }
+
         // Case when only whatif (else if) exists
         else if (indexOfWhatIf != -1) {
             // The true statements
@@ -247,6 +263,7 @@ public final class Parser {
             List<String> falseTokens = pTokens.subList(indexOfWhatIf, indexOfEnd);
             currentNode.mRight = functionAST(trueTokens);
         }
+
         // Catch-all case
         else {
             throw new IllegalArgumentException("Something bad has happened in the parser");
@@ -263,8 +280,93 @@ public final class Parser {
      */
     private static Node multiLineConditionalAST(List<List<String>> pTokens)
     {
-        Node headNode = new Node(pTokens.get(0).get(0));
-        Node currentNode = headNode;
+        Node headNode = new Node(pTokens.get(0)); // What we return
+        Node currentNode = headNode; // A temporary node to write on as we go through tokens
+
+        // Indices of each keyword (-1 if nonexistant)
+        int indexOfThen = pTokens.indexOf("then");
+        int indexOfWhatIf = pTokens.indexOf("whatif");
+        int indexOfOtherwise = pTokens.indexOf("otherwise");
+        int indexOfEnd = pTokens.indexOf("end");
+
+        // Bunch of cases to make sure everything in code is written correctly
+        if (indexOfThen == -1) {
+            throw new IllegalArgumentException("Syntax Error: Missing keyword 'then'");
+        }
+        else if (indexOfEnd == -1) {
+            throw new IllegalArgumentException("Syntax Error: Missing keyword 'end'");
+        }
+        else if (indexOfEnd < indexOfThen) {
+            throw new IllegalArgumentException("Syntax Error: Keyword 'end' must not come before keyword 'then'");
+        }
+        else if (indexOfEnd < indexOfWhatIf || indexOfEnd < indexOfWhatIf) {
+            throw new IllegalArgumentException("Syntax Error: Keyword 'end' must come last in conditional (if statement) code");
+        }
+        else if (indexOfOtherwise < indexOfWhatIf) {
+            throw new IllegalArgumentException("Syntax Error: Keyword 'whatif' is never reached because 'otherwise' precedes it");
+        }
+        // TODO think of more case statements
+
+
+        // The conditional expression tokens
+        List<String> conditionalTokens = pTokens.subList(1, indexOfThen);
+
+        // Turning the conditional expression tokens into a tree
+        Node conditionalExpressionNode = operatorAST(conditionalTokens);
+
+        // Puts the conditional expression node in the main node's mLeft
+        currentNode.mLeft = conditionalExpressionNode;
+        
+
+        // Case when neither whatif (else if) or otherwise (else) exist
+        if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
+             // The true statements
+             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfEnd);
+             currentNode.mMiddle = functionAST(trueTokens);
+        }
+
+        // Case when only otherwise (else) exists
+        else if (indexOfOtherwise != -1) {
+            // The true statements
+            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfOtherwise);
+            currentNode.mMiddle = functionAST(trueTokens);
+
+            // The false statements
+            List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
+            currentNode.mRight = functionAST(trueTokens);
+        }
+
+        // TODO add this case if time allows
+        // // Case when both whatif (else if) and otherwise (else) exist
+        // else if (indexOfWhatIf != -1 && indexOfOtherwise != -1) {
+        //     // The true statements
+        //     List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
+        //     currentNode.mMiddle = functionAST(trueTokens);
+
+        //     // The else if statements
+        //     List<String> whatIfTokens = pTokens.subList(indexOfWhatIf, indexOfOtherwise);
+        //     currentNode.mRight = functionAST(trueTokens);
+
+        //     // The false statements
+        //     List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
+        // }
+
+        // Case when only whatif (else if) exists
+        else if (indexOfWhatIf != -1) {
+            // The true statements
+            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
+            currentNode.mMiddle = functionAST(trueTokens);
+
+            // The false statements
+            List<String> falseTokens = pTokens.subList(indexOfWhatIf, indexOfEnd);
+            currentNode.mRight = functionAST(trueTokens);
+        }
+
+        // Catch-all case
+        else {
+            throw new IllegalArgumentException("Something bad has happened in the parser");
+        }
+
 
         return headNode;
     }
