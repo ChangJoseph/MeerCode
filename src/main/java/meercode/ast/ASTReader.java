@@ -95,7 +95,7 @@ public  final class ASTReader
                 newLine();
                 return("t" + curFlagCount); //unused
             }
-            else if(node.mData.equals("print"))//If the node evaluates to a print statement
+            else if(node.mData.equals("say"))//If the node evaluates to a print statement
             {
                 write("print " + genFunction(node.mMiddle));// creates a print statement using middle evaluation
                 newLine();
