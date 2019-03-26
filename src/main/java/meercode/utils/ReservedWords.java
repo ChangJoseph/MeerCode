@@ -7,9 +7,14 @@ import java.util.List;
 public final class ReservedWords {
 
     private static final String[] kArrayReservedWords =
-        {"import","if","then","whatIf","otherwise","repeatWhile","break","end","none","+","-","*","/","^",">","<",">=","<=","==","!=","not","or","and","is"};
+        {"import","if","then","whatif","if","while","otherwise","repeatwhile","break","end","none","+","-","*","/","^",">","<",">=","<=","==","!=","not","or","and","is","%"};
+    private static final String[] kArray3ACComparators = 
+        {"<",">","<=",">=","!=","==","or","and"};    
+    private static final String[] kArray3ACOperators = 
+        {"+","-","/","*","%","^"};
     private static final List<String> kReservedWords = new ArrayList<String>(Arrays.asList(kArrayReservedWords));
-
+    private static final List<String> k3ACComparators = new ArrayList<String>(Arrays.asList(kArray3ACComparators));
+    private static final List<String> k3ACOperators = new ArrayList<String>(Arrays.asList(kArray3ACOperators));
     public static List<String> getReservedWords() {
         return kReservedWords.subList(0, 9);
     }
@@ -18,6 +23,14 @@ public final class ReservedWords {
     }
     public static List<String> getComparators() {
         return kReservedWords.subList(14, kReservedWords.size());
+    }
+    public static List<String> get3ACComparators()
+    {
+        return ( k3ACComparators);
+    }
+    public static List<String> get3ACOperators()
+    {
+        return( k3ACOperators);
     }
 
 }

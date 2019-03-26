@@ -6,10 +6,14 @@ public class AbstractSyntaxTree
 
     public AbstractSyntaxTree(Node head)
     {
+        
         this.head = head;
+        
     }
     public Node getHead()
     {
+        
         return(head);
     }
+    
 }
