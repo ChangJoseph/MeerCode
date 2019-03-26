@@ -1,14 +1,17 @@
 package meercode.ast;
 import java.io.*;
 import java.util.*;
+
+import meercode.utils.ReservedWords;
+
 import java.nio.file.*;
-public class ASTReader 
+public  final class ASTReader 
 {
     private AbstractSyntaxTree tree;
     
     String outputString;
     private int flagCount;
-    private ArrayList<String> functionList = new ArrayList<String>();
+    private List<String> functionList = new ArrayList<String>();
     private String outputFile;
     private Queue<String> idQueue;
     public ASTReader(AbstractSyntaxTree tree, String outputFile) 
@@ -54,7 +57,7 @@ public class ASTReader
         } 
     }
    
-    public void readTree() 
+    private void readTree() 
     {
         //System.out.println("Tree has a head of " + tree.getHead().mData + " with a flag " + tree.getHead().mFlag);
         Node head = tree.getHead();
@@ -166,9 +169,19 @@ public class ASTReader
     {
         write("\n");
     }
-    public void testWrite() throws IOException
+    
+    public static boolean convertTo3AC(AbstractSyntaxTree tree, String filePath)
     {
-        //System.out.println("Attempting to write");
-        write("This is a test");
+        try
+        {
+            ASTReader reader = new ASTReader(tree, filePath);
+            reader.readTree();
+        }
+        catch(Exception E)
+        {
+            return(false);
+        }
+        return(false);
+
     }
 }

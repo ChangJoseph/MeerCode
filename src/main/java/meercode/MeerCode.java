@@ -3,54 +3,10 @@
  */
 package meercode;
 
-import meercode.*;
-import meercode.ast.*;
+// import meercode.*;
+
 public class MeerCode {
-    public static void readerTest()
-    {
-        AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP", 'f'));
-        tree.getHead().mLeft = new Node("=", 'f');
-        tree.getHead().mLeft.mLeft = new Node("x", 'v');
-        tree.getHead().mLeft.mRight = new Node("0", 'n');
-        tree.getHead().mRight = new Node("NOP", 'f');
-        tree.getHead().mRight.mLeft = new Node("while", 'k');
-        tree.getHead().mRight.mLeft.mLeft = new Node("<=", 'c');
-        tree.getHead().mRight.mLeft.mLeft.mLeft = new Node("x", 'v');
-        tree.getHead().mRight.mLeft.mLeft.mRight = new Node("10", 'n');
-        tree.getHead().mRight.mLeft.mRight = new Node("NOP", 'f');
-        tree.getHead().mRight.mLeft.mRight.mLeft = new Node("if", 'k');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mLeft = new Node("==", 'f');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mLeft.mLeft = new Node("%", 'f');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mLeft.mLeft.mLeft = new Node("x", 'v');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mLeft.mLeft.mRight = new Node("2", 'n');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mLeft.mRight = new Node("0", 'n');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mMiddle = new Node("print", 'f');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mMiddle.mMiddle = new Node("Even", 'n');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mRight = new Node("print", 'f');
-        tree.getHead().mRight.mLeft.mRight.mLeft.mRight.mMiddle = new Node("Odd", 'n');
-        tree.getHead().mRight.mLeft.mRight.mRight = new Node("=", 'f');
-        tree.getHead().mRight.mLeft.mRight.mRight.mLeft = new Node("x", 'v');
-        tree.getHead().mRight.mLeft.mRight.mRight.mRight = new Node("+", 'f');
-        tree.getHead().mRight.mLeft.mRight.mRight.mRight.mLeft = new Node("x", 'v');
-        tree.getHead().mRight.mLeft.mRight.mRight.mRight.mRight = new Node("1", 'n');
-        tree.getHead().mRight.mRight = new Node("print", 'f');
-        tree.getHead().mRight.mRight.mMiddle = new Node("Done", 'n');
-        
-        
-
-        System.out.println(tree.getHead().mFlag);
-
-        String output = "C:/Users/robin/Desktop/GitStuff/MeerCode/src/main/java/meercode/TestOutput.txt";
-        
-            System.out.println("Making reader");
-            ASTReader reader = new ASTReader(tree, output);
-            reader.readTree();
-            
-        
-        
-        
-           
-        
+    public static void main(String[] args) {
     }
     public static void main(String[] args)
     {
