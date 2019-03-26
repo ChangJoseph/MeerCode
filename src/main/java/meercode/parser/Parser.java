@@ -40,7 +40,6 @@ public final class Parser {
     public static AbstractSyntaxTree parseTokens(List<List<String>> pTokens) {
         AbstractSyntaxTree tree = new AbstractSyntaxTree(new Node("NOP"));
 
-<<<<<<< Updated upstream
         // for (List<String> rows : pTokens) {
         //     for (String token : rows) {
         //         if (kKeywords.contains(token))
@@ -77,15 +76,10 @@ public final class Parser {
                 case 'f': tree.getHead().mLeft = functionAST(row);
                 case 'o': tree.getHead().mLeft = operatorAST(row);
             }
-=======
-        for (List<String> rows : pTokens) {
-            
->>>>>>> Stashed changes
         }
         return tree;
     }
 
-<<<<<<< Updated upstream
     /**
      * Processes a line of code and gives back info on it
      * @param pTokens The line of code in form of list of tokens
@@ -114,32 +108,6 @@ public final class Parser {
         }
         
         return meta;
-=======
-    public static AbstractSyntaxTree parseTokensRecursive(List<List<String>> pTokens) {
-        AbstractSyntaxTree ast = new AbstractSyntaxTree(new Node("NOP"));
-        parseTokensRecursive(pTokens, ast.getHead());
-        return ast;
-    }
-    private static Node parseTokensRecursive(List<List<String>> pTokens, Node pNode) {
-        List<String> currentLine = pTokens.remove(0);
-        pNode.mLeft = processTokens(currentLine);
-        // pTokens.remove(0);
-        pNode.mRight = parseTokensRecursive(pTokens, pNode.mRight);
-        return pNode;
-    }
-    private static Node processTokens(List<String> pTokens) {
-        switch(pTokens.get(0).toUpperCase()) {
-            case "IF":
-                conditionalAST(pTokens);
-                break;
-            case "REPEATWHILE":
-                
-                break;
-            default:
-                break;
-        }
-        return null;
->>>>>>> Stashed changes
     }
 
 
