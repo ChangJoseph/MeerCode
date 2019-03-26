@@ -182,16 +182,16 @@ public final class Parser {
         if (indexOfThen == -1) {
             throw new IllegalArgumentException("Syntax Error: Missing keyword 'then'");
         }
-        if (indexOfEnd == -1) {
+        else if (indexOfEnd == -1) {
             throw new IllegalArgumentException("Syntax Error: Missing keyword 'end'");
         }
-        if (indexOfEnd < indexOfThen) {
+        else if (indexOfEnd < indexOfThen) {
             throw new IllegalArgumentException("Syntax Error: Keyword 'end' must not come before keyword 'then'");
         }
-        if (indexOfEnd < indexOfWhatIf || indexOfEnd < indexOfWhatIf) {
+        else if (indexOfEnd < indexOfWhatIf || indexOfEnd < indexOfWhatIf) {
             throw new IllegalArgumentException("Syntax Error: Keyword 'end' must come last in conditional (if statement) code");
         }
-        if (indexOfOtherwise < indexOfWhatIf) {
+        else if (indexOfOtherwise < indexOfWhatIf) {
             throw new IllegalArgumentException("Syntax Error: Keyword 'whatif' is never reached because 'otherwise' precedes it");
         }
         // TODO think of more case statements
@@ -211,33 +211,41 @@ public final class Parser {
         if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
              // The true statements
              List<String> trueTokens = pTokens.subList(indexOfThen, indexOfEnd);
+             currentNode.mMiddle = functionAST(trueTokens);
         }
         // Case when only otherwise (else) exists
         else if (indexOfOtherwise != -1) {
             // The true statements
             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfOtherwise);
+            currentNode.mMiddle = functionAST(trueTokens);
 
             // The false statements
             List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
+            currentNode.mRight = functionAST(trueTokens);
         }
-        // Case when both whatif (else if) and otherwise (else) exist
-        else if (indexOfWhatIf != -1 && indexOfOtherwise != -1) {
-            // The true statements
-            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
+        // TODO add this case if time allows
+        // // Case when both whatif (else if) and otherwise (else) exist
+        // else if (indexOfWhatIf != -1 && indexOfOtherwise != -1) {
+        //     // The true statements
+        //     List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
+        //     currentNode.mMiddle = functionAST(trueTokens);
 
-            // The else if statements
-            List<String> whatIfTokens = pTokens.subList(indexOfWhatIf, indexOfOtherwise);
+        //     // The else if statements
+        //     List<String> whatIfTokens = pTokens.subList(indexOfWhatIf, indexOfOtherwise);
+        //     currentNode.mRight = functionAST(trueTokens);
 
-            // The false statements
-            List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
-        }
+        //     // The false statements
+        //     List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
+        // }
         // Case when only whatif (else if) exists
         else if (indexOfWhatIf != -1) {
             // The true statements
             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
+            currentNode.mMiddle = functionAST(trueTokens);
 
             // The false statements
             List<String> falseTokens = pTokens.subList(indexOfWhatIf, indexOfEnd);
+            currentNode.mRight = functionAST(trueTokens);
         }
         // Catch-all case
         else {
