@@ -20,13 +20,27 @@ public final class Parser {
      */
     public static void main(String[] args) {
         List<List<String>> tokens = new ArrayList<List<String>>();
+        // Code line 1
         tokens.add(new ArrayList<String>());
-        tokens.get(0).add("test 0 0");
-        tokens.get(0).add("test 0 1");
+        tokens.get(0).add("if");
+        tokens.get(0).add("5");
+        tokens.get(0).add("<");
+        tokens.get(0).add("2");
+        tokens.get(0).add("then");
+        tokens.get(0).add("say");
+        tokens.get(0).add("\"true\"");
+        tokens.get(0).add("otherwise");
+        tokens.get(0).add("say");
+        tokens.get(0).add("\"false\"");
+        tokens.get(0).add("end");
+
+        // Code line 2
         tokens.add(new ArrayList<String>());
-        tokens.get(1).add("test 1 0");
+        tokens.get(1).add("say");
+        tokens.get(1).add("\"line 2 here\"");
 
         AbstractSyntaxTree ast = Parser.parseTokens(tokens);
+        System.out.println(ast.getHead() + " " + ast.getHead().mLeft + " " + ast.getHead().mRight);
     }
 
     private Parser() {
