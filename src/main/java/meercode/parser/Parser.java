@@ -41,9 +41,10 @@ public final class Parser {
 
         AbstractSyntaxTree ast = Parser.parseTokens(tokens);
         Node head = ast.getHead();
-        System.out.println(head.mLeft.mData + " " + head.mLeft.mLeft.mData + " " + head.mLeft.mRight.mData);
+        System.out.println(head.mLeft.mData + " " + head.mLeft.mLeft.mLeft.mData + " " + head.mLeft.mLeft.mData + " " + head.mLeft.mLeft.mRight.mData);
+        System.out.println(head.mLeft.mMiddle.mData);
         head = head.mRight;
-        System.out.println(head.mData + " " + head.mLeft.mData);
+        //System.out.println(head.mData + " " + head.mLeft.mData);
     }
 
     private Parser() {
@@ -105,6 +106,7 @@ public final class Parser {
                 case 'k': System.out.println("Yur doin sumthin wrong boi");
                 case 'f': temp.mLeft = functionAST(row);
                 case 'o': temp.mLeft = operatorAST(row);
+                            System.out.println(temp.mLeft.mLeft.mData);
             }
             temp.mRight = new Node("NOP");
             temp = temp.mRight; // TODO fencepost problem
@@ -192,10 +194,12 @@ public final class Parser {
                 Node temp = headNode;
                 headNode = currentNode;
                 headNode.mLeft = temp;
+                System.out.println(headNode.mLeft.mData);
             }
             else if (headNode.mRight == null && !kComparators.contains(data) && !kOperators.contains(data))
             {
                 headNode.mRight = new Node(data);
+                System.out.println(headNode.mRight.mData);
             }
             else
             {
@@ -203,6 +207,7 @@ public final class Parser {
             }            
             
         }
+        System.out.println(headNode.mLeft.mData + headNode.mData + headNode.mRight.mData);
         return headNode;
     }
 
