@@ -29,28 +29,28 @@ public class AbstractSyntaxTree
     private String toString(Node node) {
         String stringTree = "";
         if (node.mData != null) {
-            stringTree += node.mData + " ";
+            stringTree += node.mData + "; ";
         }
         else {
-            stringTree += "~ ";
+            stringTree += "~; ";
         }
         if (node.mLeft != null) {
             stringTree += toString(node.mLeft);
         }
         else {
-            stringTree += "// "; // left branch null
+            stringTree += "/ "; // left branch null
         }
         if (node.mMiddle != null) {
             stringTree += toString(node.mMiddle);
         }
         else {
-            stringTree += "|| "; // middle branch null
+            stringTree += "| "; // middle branch null
         }
         if (node.mRight != null) {
             stringTree += toString(node.mRight);
         }
         else {
-            stringTree += "\\\\ "; // right branch null
+            stringTree += "\\ "; // right branch null
         }
         return stringTree;
     }
