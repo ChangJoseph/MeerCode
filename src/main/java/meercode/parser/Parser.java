@@ -103,10 +103,14 @@ public final class Parser {
                     }
                     temp.mLeft = multiLineConditionalAST(pTokens.subList(count, c));
                     count = c;
-                case 'k': System.out.println("Yur doin sumthin wrong boi");
-                case 'f': temp.mLeft = functionAST(row);
-                case 'o': temp.mLeft = operatorAST(row);
-                            System.out.println(temp.mLeft.mLeft.mData);
+                case 'o':
+                    temp.mLeft = operatorAST(row);
+                    // System.out.println(temp.mLeft.mLeft.mData);
+                case 'k':
+                    temp.mLeft = functionAST(row);
+                default:
+                    temp.mLeft = operatorAST(row);
+                    
             }
             temp.mRight = new Node("NOP");
             temp = temp.mRight; // TODO fencepost problem
@@ -133,12 +137,12 @@ public final class Parser {
         else if (function.equals("REPEATWHILE")) {
             meta = new ParserMeta(true, 'l');
         }
-        else if (arrayContainsFromReference(pTokens, kOperators)) // TODO find a faster way to check if pTokens has one or more element from kOperators
+        else if (arrayContainsFromReference(pTokens, kOperators)) // find a faster way to check if pTokens has one or more element from kOperators
         {
             meta = new ParserMeta(false, 'o');
         }
-        else if (function.matches("[A-Z]")) {
-            meta = new ParserMeta(false, 'a'); // TODO figure out ambiguity
+        else if (function.matches("[a-z]+")) { // TODO check if this works
+            meta = new ParserMeta(false, 'k');
         }
         else {
             throw new IllegalArgumentException("SYNTAX ERROR");
@@ -301,18 +305,18 @@ public final class Parser {
         if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
              // The true statements
              List<String> trueTokens = pTokens.subList(indexOfThen, indexOfEnd);
-             currentNode.mMiddle = functionAST(trueTokens);
+             currentNode.mMiddle = operatorAST(trueTokens);
         }
 
         // Case when only otherwise (else) exists
         else if (indexOfOtherwise != -1) {
             // The true statements
             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfOtherwise);
-            currentNode.mMiddle = functionAST(trueTokens);
+            currentNode.mMiddle = operatorAST(trueTokens);
 
             // The false statements
             List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
-            currentNode.mRight = functionAST(trueTokens);
+            currentNode.mRight = operatorAST(trueTokens);
         }
 
         // TODO add this case if time allows
@@ -334,11 +338,11 @@ public final class Parser {
         else if (indexOfWhatIf != -1) {
             // The true statements
             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
-            currentNode.mMiddle = functionAST(trueTokens);
+            currentNode.mMiddle = operatorAST(trueTokens);
 
             // The false statements
             List<String> falseTokens = pTokens.subList(indexOfWhatIf, indexOfEnd);
-            currentNode.mRight = functionAST(trueTokens);
+            currentNode.mRight = operatorAST(trueTokens);
         }
 
         // Catch-all case
@@ -438,7 +442,7 @@ public final class Parser {
              currentNode.mMiddle = new Node("NOP");
              currentNode = currentNode.mMiddle;
              for (List<String> row : trueTokens) {
-                currentNode.mLeft = functionAST(row);
+                currentNode.mLeft = operatorAST(row);
                 currentNode.mRight = new Node("NOP");
                 currentNode = currentNode.mRight;
              }
@@ -451,7 +455,7 @@ public final class Parser {
             currentNode.mMiddle = new Node("NOP");
             currentNode = currentNode.mMiddle;
             for (List<String> row : trueTokens) {
-                currentNode.mLeft = functionAST(row);
+                currentNode.mLeft = operatorAST(row);
                 currentNode.mRight = new Node("NOP");
                 currentNode = currentNode.mRight; // TODO fencepost problem
             }
@@ -462,7 +466,7 @@ public final class Parser {
             currentNode.mRight = new Node("NOP");
             currentNode = currentNode.mRight;
             for (List<String> row : falseTokens) {
-                currentNode.mLeft = functionAST(row);
+                currentNode.mLeft = operatorAST(row);
                 currentNode.mRight = new Node("NOP");
                 currentNode = currentNode.mRight; // TODO fencepost problem
             }
@@ -474,7 +478,7 @@ public final class Parser {
             currentNode.mMiddle = new Node("NOP");
             currentNode = currentNode.mMiddle;
             for (List<String> row : trueTokens) {
-                currentNode.mLeft = functionAST(row);
+                currentNode.mLeft = operatorAST(row);
                 currentNode.mRight = new Node("NOP");
                 currentNode = currentNode.mRight; // TODO fencepost problem
             }
@@ -508,14 +512,10 @@ public final class Parser {
     private static Node functionAST(List<String> pTokens)
     {
         Node headNode = new Node();
-        Node currentNode = new Node();
+        Node currentNode = new Node("");
 
         return headNode;
     }
-
-
-    //     return null;
-    // }
 
     /**
      * Checks if a line of code has any tokens that match any element from a reference list
