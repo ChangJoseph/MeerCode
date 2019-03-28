@@ -1,0 +1,3 @@
+x = 7
+if 5 < x then say "true" otherwise say "false" end
+say "Hello World"

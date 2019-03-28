@@ -35,7 +35,7 @@ public final class Compiler
         //System.out.println("Making Function and Comparator Lists");
         //Creates lists of reserved words from comparators and operators
         comparatorList = ReservedWords.get3ACComparators();
-        functionList = ReservedWords.get3ACOperators();
+        functionList = ReservedWords.get3ACFunctions();
         //System.out.println("Beginning Scan");
         //System.out.println(scan.hasNextLine());
         //Adds the boolean constants as known values

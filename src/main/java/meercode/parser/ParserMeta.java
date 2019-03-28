@@ -9,6 +9,8 @@ package meercode.parser;
  * 'l' -> loop
  * 'o' -> operation
  * 'k' -> keyword
+ * 'i' -> intializer
+ * 's' -> say / print
  */
 public final class ParserMeta
 {

@@ -26,8 +26,9 @@ public  final class ASTReader
         this.tree = tree;
         this.outputFile = outputFile;
         flagCount = 0;
-        functionList = ReservedWords.getReservedWords(); //Uses the ReservedWords class to determine keywords
         
+        functionList = ReservedWords.getAllReservedWords(); //Uses the ReservedWords class to determine keywords
+        //System.out.println(functionList.contains("<"));
         
         
     }
@@ -48,6 +49,7 @@ public  final class ASTReader
    //Begins the generation of the 3AC
     private void readTree() 
     {
+        clearFile();
         //System.out.println("Tree has a head of " + tree.getHead().mData + " with a flag " + tree.getHead().mFlag);
         Node head = tree.getHead(); //Gets the header Node from the tree
        genFunction(head); // Starts the recursive function the generate the 3AC
@@ -157,7 +159,7 @@ public  final class ASTReader
                     of the node and apply the operation to each of them
                 */
                 write( "t" + curFlagCount + " = " + genFunction(node.mLeft) + " " + node.mData + " " + genFunction(node.mRight) + "\n");
-               //System.out.print(outputString);
+               
                
                
                return("t"+ curFlagCount);//returns unique identifier to be used by other recursive functions
@@ -167,6 +169,7 @@ public  final class ASTReader
     //Determines if something is a function using the prebuilt function list
     private boolean isFunction(String mData)
     {
+        //System.out.println("mData is:" + mData);
         return(functionList.contains(mData));
     }
     //Adds a new line character to the file.
@@ -189,4 +192,17 @@ public  final class ASTReader
         return(false);
 
     }
+
+private void clearFile()
+{
+    File f = new File(outputFile);
+if(f.exists()){
+	f.delete();
+	try {
+		f.createNewFile();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+}
 }

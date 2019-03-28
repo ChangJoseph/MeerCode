@@ -12,11 +12,18 @@ public final class ReservedWords {
         {"<",">","<=",">=","!=","==","or","and"};    
     private static final String[] kArray3ACOperators = 
         {"+","-","/","*","%","^"};
+    private static final String[] kArray3ACFunctions =
+    {"<",">","<=",">=","!=","==","or","and","+","-","/","*","%","^"};
     private static final List<String> kReservedWords = new ArrayList<String>(Arrays.asList(kArrayReservedWords));
     private static final List<String> k3ACComparators = new ArrayList<String>(Arrays.asList(kArray3ACComparators));
     private static final List<String> k3ACOperators = new ArrayList<String>(Arrays.asList(kArray3ACOperators));
+    private static final List<String> k3ACFunctions = new ArrayList<String>(Arrays.asList(kArray3ACFunctions));
     public static List<String> getReservedWords() {
         return kReservedWords.subList(0, 9);
+    }
+    public static List<String> getAllReservedWords()
+    {
+        return (kReservedWords);
     }
     public static List<String> getOperators() {
         return kReservedWords.subList(9, kReservedWords.size());
@@ -31,6 +38,10 @@ public final class ReservedWords {
     public static List<String> get3ACOperators()
     {
         return( k3ACOperators);
+    }
+    public static List<String> get3ACFunctions()
+    {
+        return( k3ACFunctions);
     }
 
 }

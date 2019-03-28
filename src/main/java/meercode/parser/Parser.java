@@ -71,7 +71,7 @@ public final class Parser {
             boolean list2d = meta.getListBool(); // 1d or 2d list needed
             char astType = meta.getASTType(); // what type of ast
             switch(astType) {
-                case 'c':
+                case 'c': // Conditional
                     if (list2d) {
                         int endIndex = -1;
                         List<List<String>> conditionalRows;
@@ -88,11 +88,14 @@ public final class Parser {
                         // Sets the 2d array from 'if' to 'end'
                         conditionalRows = pTokens.subList(count, endIndex);
                         temp.mLeft = multiLineConditionalAST(conditionalRows);
-                        count = endIndex; // TODO check this
+                        count = endIndex; // TODO check this ************************
                     }
                     else temp.mLeft = conditionalAST(row);
                     break;
-                case 'l': 
+                case 's': // say
+                    temp.mLeft = functionAST(row);
+                    break;
+                case 'l': // Loops
                     int c = count;
                     try {
                         while(!pTokens.get(c).contains("end"))
@@ -106,10 +109,12 @@ public final class Parser {
                     }
                     temp.mLeft = multiLineConditionalAST(pTokens.subList(count, c));
                     count = c;
-                case 'o':
+                case 'i': // Initializer
+                    temp.mLeft = initializerAST(row);
+                case 'o': // Operators
                     temp.mLeft = operatorAST(row);
                     // System.out.println(temp.mLeft.mLeft.mData);
-                case 'k':
+                case 'k': // Functions / keywords
                     temp.mLeft = functionAST(row);
                 default:
                     temp.mLeft = operatorAST(row);
@@ -118,6 +123,11 @@ public final class Parser {
             temp.mRight = new Node("NOP");
             temp = temp.mRight; // TODO fencepost problem
         }
+        temp = tree.getHead();
+        while (temp.mRight.mRight != null) {
+            temp = temp.mRight;
+        }
+        temp.mRight = null;
         return tree;
     }
 
@@ -132,13 +142,22 @@ public final class Parser {
 
         if (function.equals("if")) {
             // If the 'if' is a single line
-            if (pTokens.contains("end")) meta = new ParserMeta(false, 'c');
-
+            if (pTokens.contains("end")) {
+                meta = new ParserMeta(false, 'c');
+            }
             // If the 'if' is a block
-            else meta = new ParserMeta(true, 'c');
+            else {
+                meta = new ParserMeta(true, 'c');
+            }
+        }
+        else if (function.equals("say")) {
+            meta = new ParserMeta(false, 's');
         }
         else if (function.equals("REPEATWHILE")) {
             meta = new ParserMeta(true, 'l');
+        }
+        else if (pTokens.contains("is")) {
+            meta = new ParserMeta(false, 'i');
         }
         else if (arrayContainsFromReference(pTokens, kOperators)) // find a faster way to check if pTokens has one or more element from kOperators
         {
@@ -196,9 +215,9 @@ public final class Parser {
             else if (headNode.mLeft != null && headNode.mRight != null)
             {
                 Node temp = headNode;
-                headNode = new Node(pTokens.get(i + 1), getOpFlag(pTokens.get(i + 1)));
-                headNode.mLeft = temp;
                 i++;
+                headNode = new Node(pTokens.get(i), getOpFlag(pTokens.get(i)));
+                headNode.mLeft = temp;
             }
             else if (headNode.mLeft == null)
             {
@@ -295,7 +314,7 @@ public final class Parser {
 
 
         // The conditional expression tokens
-        List<String> conditionalTokens = pTokens.subList(1, indexOfThen + 1);
+        List<String> conditionalTokens = pTokens.subList(1, indexOfThen);
 
         // Turning the conditional expression tokens into a tree
         Node conditionalExpressionNode = operatorAST(conditionalTokens);
@@ -308,18 +327,18 @@ public final class Parser {
         if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
              // The true statements
              List<String> trueTokens = pTokens.subList(indexOfThen + 1, indexOfEnd);
-             currentNode.mMiddle = operatorAST(trueTokens);
+             currentNode.mMiddle = functionAST(trueTokens);
         }
 
         // Case when only otherwise (else) exists
         else if (indexOfOtherwise != -1) {
             // The true statements
             List<String> trueTokens = pTokens.subList(indexOfThen + 1, indexOfOtherwise);
-            currentNode.mMiddle = operatorAST(trueTokens);
+            currentNode.mMiddle = functionAST(trueTokens);
 
             // The false statements
-            List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
-            currentNode.mRight = operatorAST(falseTokens);
+            List<String> falseTokens = pTokens.subList(indexOfOtherwise + 1, indexOfEnd);
+            currentNode.mRight = functionAST(falseTokens);
         }
 
         // TODO add this case if time allows
@@ -340,12 +359,12 @@ public final class Parser {
         // Case when only whatif (else if) exists
         else if (indexOfWhatIf != -1) {
             // The true statements
-            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfWhatIf);
-            currentNode.mMiddle = operatorAST(trueTokens);
+            List<String> trueTokens = pTokens.subList(indexOfThen + 1, indexOfWhatIf);
+            currentNode.mMiddle = functionAST(trueTokens);
 
             // The false statements
-            List<String> falseTokens = pTokens.subList(indexOfWhatIf, indexOfEnd);
-            currentNode.mRight = operatorAST(trueTokens);
+            List<String> falseTokens = pTokens.subList(indexOfWhatIf + 1, indexOfEnd);
+            currentNode.mRight = functionAST(trueTokens);
         }
 
         // Catch-all case
@@ -441,7 +460,7 @@ public final class Parser {
         // Case when neither whatif (else if) or otherwise (else) exist
         if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
              // The true statements
-             List<List<String>> trueTokens = pTokens.subList(indexRowOfThen, indexRowOfEnd);
+             List<List<String>> trueTokens = pTokens.subList(indexRowOfThen+1, indexRowOfEnd);
              currentNode.mMiddle = new Node("NOP");
              currentNode = currentNode.mMiddle;
              for (List<String> row : trueTokens) {
@@ -454,7 +473,7 @@ public final class Parser {
         else if (indexOfOtherwise != -1) {
             Node header = currentNode;
             // The true statements
-            List<List<String>> trueTokens = pTokens.subList(indexRowOfThen, indexRowOfOtherwise);
+            List<List<String>> trueTokens = pTokens.subList(indexRowOfThen+1, indexRowOfOtherwise);
             currentNode.mMiddle = new Node("NOP");
             currentNode = currentNode.mMiddle;
             for (List<String> row : trueTokens) {
@@ -465,7 +484,7 @@ public final class Parser {
 
             currentNode = header;
             // The false statements
-            List<List<String>> falseTokens = pTokens.subList(indexRowOfOtherwise, indexOfEnd);
+            List<List<String>> falseTokens = pTokens.subList(indexRowOfOtherwise+1, indexOfEnd);
             currentNode.mRight = new Node("NOP");
             currentNode = currentNode.mRight;
             for (List<String> row : falseTokens) {
@@ -477,7 +496,7 @@ public final class Parser {
         // Case when only whatif (else if) exists
         else if (indexOfWhatIf != -1) {
             // The true statements
-            List<List<String>> trueTokens = pTokens.subList(indexRowOfThen, indexRowOfWhatIf);
+            List<List<String>> trueTokens = pTokens.subList(indexRowOfThen + 1, indexRowOfWhatIf);
             currentNode.mMiddle = new Node("NOP");
             currentNode = currentNode.mMiddle;
             for (List<String> row : trueTokens) {
@@ -487,7 +506,7 @@ public final class Parser {
             }
 
             // The false statements
-            List<List<String>> falseTokens = pTokens.subList(indexRowOfWhatIf, indexRowOfEnd);
+            List<List<String>> falseTokens = pTokens.subList(indexRowOfWhatIf + 1, indexRowOfEnd);
             currentNode.mRight = multiLineConditionalAST(falseTokens);
             
         }
@@ -514,40 +533,39 @@ public final class Parser {
      */
     private static Node functionAST(List<String> pTokens)
     {
-        Node headNode = new Node();
-        Node currentNode = new Node(pTokens.get(0));
+        Node headNode = new Node(pTokens.get(0), 'f');
+        Node currentNode = headNode;
 
-        int indexParametersStart = -1;
-        int indexParametersEnd = -1;
+        // int indexParametersStart = -1;
+        // int indexParametersEnd = -1;
 
-        // Finds where the '(' is
-        for (int count = 1; count < pTokens.size(); count++) {
-            String token = pTokens.get(count);
-            if (token.equals("(")) {
-                indexParametersStart = count;
-                break;
-            }
-        }
-        // Finds where the ')' is
-        for (int count = indexParametersStart; count < pTokens.size(); count++) {
-            String token = pTokens.get(count);
-            if (token.equals("(")) {
-                indexParametersEnd = count;
-                break;
-            }
-        }
+        // This is commented out because we dont use parenthesis for functions for now
+        // // Finds where the '(' is
+        // for (int count = 1; count < pTokens.size(); count++) {
+        //     String token = pTokens.get(count);
+        //     if (token.equals("(")) {
+        //         indexParametersStart = count;
+        //         break;
+        //     }
+        // }
+        // // Finds where the ')' is
+        // for (int count = indexParametersStart; count < pTokens.size(); count++) {
+        //     String token = pTokens.get(count);
+        //     if (token.equals("(")) {
+        //         indexParametersEnd = count;
+        //         break;
+        //     }
+        // }
+        // if (indexParametersStart < 0 || indexParametersEnd < 0) {
+        //     throw new IllegalArgumentException("Syntax Error: parenthesis are not found");
+        // }
 
-        if (indexParametersStart < 0 || indexParametersEnd < 0) {
-            throw new IllegalArgumentException("Syntax Error: parenthesis are not found");
-        }
-
-        List<String> parameters = pTokens.subList(indexParametersStart, indexParametersEnd);
+        List<String> parameters = pTokens.subList(1, pTokens.size());
 
         // Sets each token in the parenthesis to its own node on the left repeating
         for (String param : parameters) {
-            currentNode.mLeft = new Node(param);
-            currentNode.mLeft.setParent(currentNode);
-            currentNode = currentNode.mLeft;
+            currentNode.mMiddle = new Node(param, 'n');
+            currentNode = currentNode.mMiddle;
         }
 
         return headNode;

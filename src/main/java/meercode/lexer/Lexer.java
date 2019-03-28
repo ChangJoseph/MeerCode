@@ -35,6 +35,7 @@ public final class Lexer
             {
                 //obtain text from a file
                 mInCode = getFileContents(filename);
+                System.out.println(mInCode);
             }
             catch (Exception e)
             {
@@ -87,8 +88,8 @@ public final class Lexer
                             c++;
                         }
                         // add c to counter b to prevent redundant looping/exceptions
-                        b += c;
-                        line.remove(line.size() - 1);
+                        b += c + 1;
+                        //line.remove(line.size() - 1);
                     }
                 }
             }
