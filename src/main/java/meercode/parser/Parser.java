@@ -23,11 +23,11 @@ public final class Parser {
         // Code line 1
         tokens.add(new ArrayList<String>());
         tokens.get(0).add("if");
-        tokens.get(0).add("(");
+        // tokens.get(0).add("(");
         tokens.get(0).add("5");
         tokens.get(0).add("<");
         tokens.get(0).add("2");
-        tokens.get(0).add(")");
+        // tokens.get(0).add(")");
         tokens.get(0).add("then");
         tokens.get(0).add("say");
         tokens.get(0).add("\"true\"");
@@ -295,7 +295,7 @@ public final class Parser {
 
 
         // The conditional expression tokens
-        List<String> conditionalTokens = pTokens.subList(1, indexOfThen);
+        List<String> conditionalTokens = pTokens.subList(1, indexOfThen + 1);
 
         // Turning the conditional expression tokens into a tree
         Node conditionalExpressionNode = operatorAST(conditionalTokens);
@@ -307,19 +307,19 @@ public final class Parser {
         // Case when neither whatif (else if) or otherwise (else) exist
         if (indexOfWhatIf == -1 && indexOfOtherwise == -1) {
              // The true statements
-             List<String> trueTokens = pTokens.subList(indexOfThen, indexOfEnd);
+             List<String> trueTokens = pTokens.subList(indexOfThen + 1, indexOfEnd);
              currentNode.mMiddle = operatorAST(trueTokens);
         }
 
         // Case when only otherwise (else) exists
         else if (indexOfOtherwise != -1) {
             // The true statements
-            List<String> trueTokens = pTokens.subList(indexOfThen, indexOfOtherwise);
+            List<String> trueTokens = pTokens.subList(indexOfThen + 1, indexOfOtherwise);
             currentNode.mMiddle = operatorAST(trueTokens);
 
             // The false statements
             List<String> falseTokens = pTokens.subList(indexOfOtherwise, indexOfEnd);
-            currentNode.mRight = operatorAST(trueTokens);
+            currentNode.mRight = operatorAST(falseTokens);
         }
 
         // TODO add this case if time allows
