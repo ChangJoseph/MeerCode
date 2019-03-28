@@ -221,11 +221,11 @@ public final class Parser {
 
     private static char getOpFlag(String data)
     {
-        if (data.matches("[0-9]"))
+        if (data.matches("[0-9]+"))
         {
             return 'n';
         }
-        else if (data.matches("[a-z]"))
+        else if (data.matches("[a-z]+"))
         {
             return 'v';
         }
