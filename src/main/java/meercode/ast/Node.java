@@ -1,7 +1,8 @@
 package meercode.ast;
 public class Node
     {
-        public Node mLeft, mRight, mMiddle, mParent;
+        public Node mLeft, mRight, mMiddle;
+        private Node mParent;
         public String mData;
         public char mFlag;
 
@@ -41,7 +42,12 @@ public class Node
 
 
 
-        
+        public void setParent(Node pParent) {
+            this.mParent = pParent;
+        }
+        public Node getParent() {
+            return mParent;
+        }
         
 
     }

@@ -16,7 +16,7 @@ public final class ReservedWords {
     private static final List<String> k3ACComparators = new ArrayList<String>(Arrays.asList(kArray3ACComparators));
     private static final List<String> k3ACOperators = new ArrayList<String>(Arrays.asList(kArray3ACOperators));
     public static List<String> getReservedWords() {
-        return kReservedWords;
+        return kReservedWords.subList(0, 9);
     }
     public static List<String> getOperators() {
         return kReservedWords.subList(9, kReservedWords.size());
