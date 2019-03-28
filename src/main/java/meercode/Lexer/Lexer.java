@@ -17,21 +17,33 @@ public final class Lexer
     {
     }
 
+    public static void main(String[] args) 
+    {
+        // System.out.println(getTokenList("C:\\Users\\franc\\OneDrive\\Documents\\excode.txt"));
+    }
 
+    /**
+     * this method takes in a file, splits the text by line and then by word, then returns the 2D list
+     * @param filename the file that the lexer takes text from
+     * @return the list of lists of text by line
+     */
     public static List<List<String>> getTokenList(String filename)
     {
         try 
         {
             try
             {
+                //obtain text from a file
                 mInCode = getFileContents(filename);
             }
             catch (Exception e)
             {
                 System.out.println("bad filename");
             }
+            //these statements space out parentheses to make it easier to parse
             mInCode = mInCode.replace("(", " ( ");
             mInCode = mInCode.replace(")", " ) ");
+            //this gets rid of multiple consecutive new lines with no text 
             mInCode = mInCode.replaceAll("[\r\n]+", "\n");
             
             List<String> lines = new ArrayList<>(Arrays.asList(mInCode.split("\n")));
@@ -74,8 +86,9 @@ public final class Lexer
                             line.set(b, word);
                             c++;
                         }
-                        // add c to counter b to prevent redundant looping
+                        // add c to counter b to prevent redundant looping/exceptions
                         b += c;
+                        line.remove(line.size() - 1);
                     }
                 }
             }
@@ -88,6 +101,12 @@ public final class Lexer
         }
     }
 
+    /**
+     * this method takes a file and extracts the text
+     * @param filename the file containing the needed contents
+     * @return a string containing the file text
+     * @throws IOException if the filename is invalid
+     */
     private static String getFileContents( String filename ) throws IOException
     {
         return new String(Files.readAllBytes(Paths.get(filename)));
