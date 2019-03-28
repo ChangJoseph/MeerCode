@@ -38,13 +38,19 @@ public class AbstractSyntaxTree
             stringTree += toString(node.mLeft);
         }
         else {
-            stringTree += "/ "; // left branch null
+            stringTree += "// "; // left branch null
+        }
+        if (node.mMiddle != null) {
+            stringTree += toString(node.mMiddle);
+        }
+        else {
+            stringTree += "|| "; // middle branch null
         }
         if (node.mRight != null) {
             stringTree += toString(node.mRight);
         }
         else {
-            stringTree += "\\ "; // right branch null
+            stringTree += "\\\\ "; // right branch null
         }
         return stringTree;
     }
