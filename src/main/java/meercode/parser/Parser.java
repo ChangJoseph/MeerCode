@@ -161,14 +161,18 @@ public final class Parser {
      */
     private static Node operatorAST(List<String> pTokens)
     {
-        Node headNode = new Node(pTokens.get(0));
+        Node headNode = new Node(pTokens.get(0), getOpFlag(pTokens.get(0)));
         Node currentNode = new Node();
 
         for (int i = 1; i < pTokens.size(); i++)
         {
+            //get element from the list
             String data = pTokens.get(i);
-            // data = data.replaceAll("[()]", ""); bad idea m8
-            currentNode = new Node(data);
+            //make a node using the element
+            currentNode = new Node(data, getOpFlag(data));
+            //check the node's data to see which flag it takes in 
+            
+
             if (data.equals(")"))
             {
                 //do nothing
@@ -178,14 +182,14 @@ public final class Parser {
             {
                 List<String> parenList = pTokens.subList(i + 1, pTokens.indexOf(")"));
                 Node temp = operatorAST(parenList);
-                headNode.mRight = new Node(pTokens.get(i +1));
+                headNode.mRight = new Node(pTokens.get(i +1), getOpFlag(pTokens.get(i+1)));
                 headNode.mRight.mLeft = temp;
                 i+= parenList.size();
             }
             else if (headNode.mLeft != null && headNode.mRight != null)
             {
                 Node temp = headNode;
-                headNode = new Node(pTokens.get(i + 1));
+                headNode = new Node(pTokens.get(i + 1), getOpFlag(pTokens.get(i + 1)));
                 headNode.mLeft = temp;
                 i++;
             }
@@ -194,12 +198,12 @@ public final class Parser {
                 Node temp = headNode;
                 headNode = currentNode;
                 headNode.mLeft = temp;
-                System.out.println(headNode.mLeft.mData);
+                
             }
             else if (headNode.mRight == null && !kComparators.contains(data) && !kOperators.contains(data))
             {
-                headNode.mRight = new Node(data);
-                System.out.println(headNode.mRight.mData);
+                headNode.mRight = new Node(data, getOpFlag(data));
+                // System.out.println(headNode.mRight.mData);
             }
             else
             {
@@ -207,8 +211,29 @@ public final class Parser {
             }            
             
         }
-        System.out.println(headNode.mLeft.mData + headNode.mData + headNode.mRight.mData);
+        // System.out.println(headNode.mLeft.mData + headNode.mData + headNode.mRight.mData);
         return headNode;
+    }
+
+    private static char getOpFlag(String data)
+    {
+        if (data.matches("[0-9]"))
+        {
+            return 'n';
+        }
+        else if (data.matches("[a-z]"))
+        {
+            return 'v';
+        }
+        else if (kOperators.contains(data))
+        {
+            return 'f';
+        }
+        else if (kComparators.contains(data))
+        {
+            return 'c';
+        }
+        else return 'f';
     }
 
     /**
