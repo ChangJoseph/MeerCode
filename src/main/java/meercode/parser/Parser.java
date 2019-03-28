@@ -512,7 +512,40 @@ public final class Parser {
     private static Node functionAST(List<String> pTokens)
     {
         Node headNode = new Node();
-        Node currentNode = new Node("");
+        Node currentNode = new Node(pTokens.get(0));
+
+        int indexParametersStart = -1;
+        int indexParametersEnd = -1;
+
+        // Finds where the '(' is
+        for (int count = 1; count < pTokens.size(); count++) {
+            String token = pTokens.get(count);
+            if (token.equals("(")) {
+                indexParametersStart = count;
+                break;
+            }
+        }
+        // Finds where the ')' is
+        for (int count = indexParametersStart; count < pTokens.size(); count++) {
+            String token = pTokens.get(count);
+            if (token.equals("(")) {
+                indexParametersEnd = count;
+                break;
+            }
+        }
+
+        if (indexParametersStart < 0 || indexParametersEnd < 0) {
+            throw new IllegalArgumentException("Syntax Error: parenthesis are not found");
+        }
+
+        List<String> parameters = pTokens.subList(indexParametersStart, indexParametersEnd);
+
+        // Sets each token in the parenthesis to its own node on the left repeating
+        for (String param : parameters) {
+            currentNode.mLeft = new Node(param);
+            currentNode.mLeft.setParent(currentNode);
+            currentNode = currentNode.mLeft;
+        }
 
         return headNode;
     }
