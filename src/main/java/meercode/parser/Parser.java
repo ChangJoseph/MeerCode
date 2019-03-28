@@ -23,9 +23,11 @@ public final class Parser {
         // Code line 1
         tokens.add(new ArrayList<String>());
         tokens.get(0).add("if");
+        tokens.get(0).add("(");
         tokens.get(0).add("5");
         tokens.get(0).add("<");
         tokens.get(0).add("2");
+        tokens.get(0).add(")");
         tokens.get(0).add("then");
         tokens.get(0).add("say");
         tokens.get(0).add("\"true\"");
@@ -40,11 +42,13 @@ public final class Parser {
         // tokens.get(1).add("\"line 2 here\"");
 
         AbstractSyntaxTree ast = Parser.parseTokens(tokens);
-        Node head = ast.getHead();
-        System.out.println(head.mLeft.mData + " " + head.mLeft.mLeft.mLeft.mData + " " + head.mLeft.mLeft.mData + " " + head.mLeft.mLeft.mRight.mData);
-        System.out.println(head.mLeft.mMiddle.mData);
-        head = head.mRight;
-        //System.out.println(head.mData + " " + head.mLeft.mData);
+
+        try {
+            System.out.println(ast.toString());
+        }
+        catch (NullPointerException e) {
+            System.out.println("Error: testing tree has a null");
+        }
     }
 
     private Parser() {
@@ -63,7 +67,6 @@ public final class Parser {
 
         for (int count = 0; count < pTokens.size(); count++) {
             List<String> row = pTokens.get(count);
-            System.out.println(row);
             ParserMeta meta = processMeta(row); // information about the line of code
             boolean list2d = meta.getListBool(); // 1d or 2d list needed
             char astType = meta.getASTType(); // what type of ast
@@ -188,7 +191,7 @@ public final class Parser {
                 Node temp = operatorAST(parenList);
                 headNode.mRight = new Node(pTokens.get(i +1), getOpFlag(pTokens.get(i+1)));
                 headNode.mRight.mLeft = temp;
-                i+= parenList.size();
+                i += parenList.size();
             }
             else if (headNode.mLeft != null && headNode.mRight != null)
             {
