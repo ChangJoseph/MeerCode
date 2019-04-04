@@ -3,6 +3,8 @@
 This is a small quarter-year project created by a couple Meermans underlings.
 ### Alright, but what exactly is it?
 Using Java, we created a simple programming language that can manipulate characters, numbers, and arrays.
+# Purpose of MeerCode
+- To make a scripting programming language to help beginner coders start basic high-level programming. 
 
 ## To programmers:
 - **Don't add/commit every single file** please... This makes commit messages messy
@@ -43,8 +45,6 @@ public class ExampleClass {
   }
 }
 ```
-# Purpose of MeerCode
-- We are making a scripting programming language to help beginner coders start basic high-level programming. 
 
 ## Structure MeerCode
 - Interpreted
